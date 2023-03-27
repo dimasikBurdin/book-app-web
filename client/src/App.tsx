@@ -1,7 +1,7 @@
 import React from 'react';
 import './styles/primary-styles.scss';
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       Book app web

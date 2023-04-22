@@ -1,2 +1,2 @@
 // TO DO
-export * from './urls'
+export * from "./urls";

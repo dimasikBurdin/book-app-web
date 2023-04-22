@@ -1,3 +1,1 @@
-export const URLS = {
-    
-}
+export const URLS = {};

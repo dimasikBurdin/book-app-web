@@ -6,18 +6,18 @@ import {
   Param,
   ParseIntPipe,
   Post,
-} from '@nestjs/common';
-import { CreateUserDto } from './user.dto';
-import { User } from './user.entity';
-import { UserService } from './user.service';
+} from "@nestjs/common";
+import { CreateUserDto } from "./user.dto";
+import { User } from "./user.entity";
+import { UserService } from "./user.service";
 
-@Controller('user')
+@Controller("api/user")
 export class UserController {
   @Inject(UserService)
   private readonly service: UserService;
 
-  @Get(':id')
-  public getUser(@Param('id', ParseIntPipe) id: number): Promise<User> {
+  @Get(":id")
+  public getUser(@Param("id", ParseIntPipe) id: number): Promise<User> {
     return this.service.getUser(id);
   }
 

@@ -19,6 +19,83 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
+  "proxy": "http://localhost:3001",
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "/*.test.ts",
+          "/*.test.tsx"
+        ],
+        "rules": {
+          "testing-library/no-node-access": "off",
+          "testing-library/no-unnecessary-act": "off",
+          "jest/valid-expect-in-promise": "off"
+        }
+      }
+    ],
+    "rules": {
+      "jsx-a11y/anchor-is-valid": "off",
+      "@typescript-eslint/consistent-type-imports": "error",
+      "@typescript-eslint/no-use-before-define": "error",
+      "import/order": [
+        "error",
+        {
+          "groups": [
+            "builtin",
+            "external",
+            "internal",
+            "unknown",
+            [
+              "parent",
+              "sibling",
+              "index"
+            ]
+          ],
+          "pathGroupsExcludedImportTypes": [
+            "react",
+            "react-redux"
+          ],
+          "pathGroups": [
+            {
+              "pattern": "react",
+              "group": "builtin",
+              "patternOptions": {
+                "matchBase": true
+              },
+              "position": "before"
+            },
+            {
+              "pattern": "react-redux",
+              "group": "builtin",
+              "patternOptions": {
+                "matchBase": true
+              },
+              "position": "before"
+            },
+            {
+              "pattern": "*.css",
+              "group": "index",
+              "patternOptions": {
+                "matchBase": true
+              },
+              "position": "after"
+            }
+          ],
+          "warnOnUnassignedImports": true
+        }
+      ]
+    },
+    "ignorePatterns": [
+      "/*",
+      "!/src"
+    ]
+  },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.3.1",

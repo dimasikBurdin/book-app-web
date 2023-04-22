@@ -3,17 +3,21 @@ import "./styles/primary-styles.scss";
 import axios from "axios";
 
 const App = () => {
-  const sendCreateUser = useCallback(() => {
-    axios.post("/api/user", {
+  const sendCreateBook = useCallback(() => {
+    axios.post("/api/book", {
       name: "test1",
-      email: "test1@inbox.ru",
-      password: "akjdJKDhkwe_214@d",
+      reviews: ["string1", "string2"],
     });
+  }, []);
+
+  const getBook = useCallback(() => {
+    axios.get("/api/book/2").then((e) => console.log(e));
   }, []);
   return (
     <div className="App">
-      Book app web
-      <button onClick={sendCreateUser}>create user</button>
+      <div>Book app web</div>
+      <button onClick={sendCreateBook}>create book</button>
+      <button onClick={getBook}>get book</button>
     </div>
   );
 };

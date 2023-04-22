@@ -1,8 +1,9 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 enum BookTypes {
-  FIRST = "first",
-  SECOND = "second",
+  READ_NOW = "read_now",
+  WANT_READ = "want_read",
+  FINISHED = "finished",
 }
 
 @Entity()
@@ -19,12 +20,19 @@ export class Book {
   @Column({ type: "integer", default: 5 })
   public rate: number;
 
-  @Column({ type: "simple-array" }) //
+  @Column({ type: "simple-array" }) // TODO
   public reviews: string[];
 
-  @Column({ type: "varchar", default: "<fullBook>" }) //
+  @Column({ type: "varchar", default: "<fullBook>" }) // TODO
   public fullBook: string;
 
-  @Column({ type: "enum", enum: BookTypes, default: BookTypes.FIRST }) //
+  @Column({
+    type: "enum",
+    enum: BookTypes,
+    nullable: true,
+  })
   public type: string;
+
+  @Column({ type: "varchar", nullable: true }) // TODO
+  public cover: string;
 }

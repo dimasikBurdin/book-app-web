@@ -1,11 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-enum BookTypes {
-  READ_NOW = "read_now",
-  WANT_READ = "want_read",
-  FINISHED = "finished",
-}
-
 @Entity()
 export class Book {
   @PrimaryGeneratedColumn()
@@ -25,13 +19,6 @@ export class Book {
 
   @Column({ type: "varchar", default: "<fullBook>" }) // TODO
   public fullBook: string;
-
-  @Column({
-    type: "enum",
-    enum: BookTypes,
-    nullable: true,
-  })
-  public type: string;
 
   @Column({ type: "varchar", nullable: true }) // TODO
   public cover: string;

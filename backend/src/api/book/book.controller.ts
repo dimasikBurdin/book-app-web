@@ -7,10 +7,12 @@ import {
   ParseIntPipe,
   Post,
 } from "@nestjs/common";
+import { ApiTags } from "@nestjs/swagger";
 import { CreateBookDto } from "./book.dto";
 import { Book } from "./book.entity";
 import { BookService } from "./book.service";
 
+@ApiTags("book")
 @Controller("api/book")
 export class BookController {
   @Inject(BookService)

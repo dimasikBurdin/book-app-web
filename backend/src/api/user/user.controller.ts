@@ -7,10 +7,12 @@ import {
   ParseIntPipe,
   Post,
 } from "@nestjs/common";
+import { ApiTags } from "@nestjs/swagger";
 import { CreateUserDto } from "./user.dto";
 import { User } from "./user.entity";
 import { UserService } from "./user.service";
 
+@ApiTags("user")
 @Controller("api/user")
 export class UserController {
   @Inject(UserService)

@@ -13,7 +13,7 @@ const App = () => {
   const sendCreateBook = useCallback(() => {
     axios.post("/api/book", {
       name: "test1",
-      reviews: ["string1", "string2"],
+      author: "",
     });
   }, []);
 

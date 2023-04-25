@@ -1,6 +1,6 @@
+import { ALL_BOOKS_MOCK } from "src/mock-api/all-books/allBooksMock";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { Book } from "../book/book.entity";
-import { ALL_BOOKS_MOCK } from "../mock-api/all-books/allBooksMock";
 
 @Entity()
 export class AllBooks {

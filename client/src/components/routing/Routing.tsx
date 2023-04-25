@@ -1,12 +1,16 @@
-import React from "react";
+import { CircularProgress } from "@mui/material";
+import React, { FC, Suspense } from "react";
 import { Route, Routes } from "react-router";
 import { ROUTES } from "../../config/routes";
 
-export const Routing = () => {
-  const TestPage = React.lazy(() => import("../../App"));
+export const Routing: FC = () => {
+  const MainPage = React.lazy(() => import("../../pages/main-page/index"));
+
   return (
-    <Routes>
-      <Route path={ROUTES.MAIN_PAGE} element={<TestPage />} />
-    </Routes>
+    <Suspense fallback={<CircularProgress />}>
+      <Routes>
+        <Route path={ROUTES.MAIN_PAGE} element={<MainPage />} />
+      </Routes>
+    </Suspense>
   );
 };

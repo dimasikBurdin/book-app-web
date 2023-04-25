@@ -3,3 +3,22 @@ export enum BookTypes {
   WANT_READ = "want_read",
   FINISHED = "finished",
 }
+
+export interface Book {
+  id: number;
+  name: string;
+  author: string;
+  description: string;
+  rate: number;
+  reviews: string[];
+  fullBook: string;
+  cover: string;
+}
+
+export type Books = Book[];
+
+export type BestBooks = Books;
+
+export type RecomendationBooks = Books;
+
+export type MyBooks = Books;

@@ -1,0 +1,14 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding-bottom: 68px;
+    overflow-y: auto;
+    box-sizing: border-box;
+
+    .navigation {
+        bottom: 0;
+        width: 100%;
+        position: fixed;
+    }
+}

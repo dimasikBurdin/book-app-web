@@ -51,10 +51,6 @@ export const MainPage: FC = () => {
     setCurrentCategory(page);
   }, []);
 
-  useEffect(() => {
-    console.log(currentCategory);
-  }, [currentCategory]);
-
   return (
     <div className={styles.main}>
       <Hidder condition={currentCategory === MainPageSubCategory.ALL}>

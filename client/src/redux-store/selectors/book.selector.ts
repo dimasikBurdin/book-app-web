@@ -16,9 +16,17 @@ export const getRecomendationBooksSelector = createSelector(
     return recomendations;
   }
 );
+
 export const getMyBooksSelector = createSelector(
   [bookSelector],
   ({ myBooks }) => {
     return myBooks;
+  }
+);
+
+export const getCurrentBookSelector = createSelector(
+  [bookSelector],
+  ({ currentBook }) => {
+    return currentBook;
   }
 );

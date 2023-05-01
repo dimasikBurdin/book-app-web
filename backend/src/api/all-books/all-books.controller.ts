@@ -42,4 +42,9 @@ export class AllBooksController {
   public getBestBooks(): Promise<Book[]> {
     return this.service.getBestBooks();
   }
+
+  @Get("book/:bookId")
+  public getBook(@Param("bookId", ParseIntPipe) bookId: number): Promise<Book> {
+    return this.service.getBook(bookId);
+  }
 }

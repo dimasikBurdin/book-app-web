@@ -35,4 +35,10 @@ export class AllBooksService {
       .findOne({ where: { id: 1 } })
       .then((e) => e.books.sort(() => 0.5 - Math.random()).slice(0, limit));
   }
+
+  public getBook(bookId: number): Promise<Book> {
+    return this.repository
+      .findOne({ where: { id: 1 } })
+      .then((e) => e.books.find((e) => e.id === bookId));
+  }
 }

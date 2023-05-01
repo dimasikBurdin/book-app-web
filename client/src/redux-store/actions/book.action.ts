@@ -1,6 +1,11 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { BookConnector } from "../../api/book-connector";
-import { BestBooks, MyBooks, RecomendationBooks } from "../../typing/book";
+import {
+  BestBooks,
+  Book,
+  MyBooks,
+  RecomendationBooks,
+} from "../../typing/book";
 import { Store } from "../../typing/store/store";
 import { setLoadedAction, setLoadingAction } from "./common.action";
 
@@ -11,6 +16,8 @@ export enum BOOK_ACTIONS {
   SET_RECOMENDATION_BOOKS = "[BOOKS] SET_RECOMENDATION_BOOKS",
   GET_MY_BOOKS_BOOKS = "[BOOKS] GET_MY_BOOKS_BOOKS",
   SET_MY_BOOKS_BOOKS = "[BOOKS] SET_MY_BOOKS_BOOKS",
+  GET_BOOK = "[BOOKS] GET_BOOK",
+  SET_BOOK = "[BOOKS] SET_BOOK",
 }
 
 export const setBestBooksAction = createAction<BestBooks>(
@@ -24,6 +31,8 @@ export const setRecomendationBooksAction = createAction<RecomendationBooks>(
 export const setMyBooksAction = createAction<MyBooks>(
   BOOK_ACTIONS.SET_MY_BOOKS_BOOKS
 );
+
+export const setBookAction = createAction<Book>(BOOK_ACTIONS.SET_BOOK);
 
 export const getBestBooksAsync = createAsyncThunk(
   BOOK_ACTIONS.GET_BEST_BOOKS,
@@ -74,5 +83,21 @@ export const getMyBooksAsync = createAsyncThunk(
     }
 
     dispatch(setLoadedAction(BOOK_ACTIONS.GET_MY_BOOKS_BOOKS));
+  }
+);
+
+export const getBookAsync = createAsyncThunk(
+  BOOK_ACTIONS.GET_BOOK,
+  async (bookId: number, { dispatch }) => {
+    dispatch(setLoadingAction(BOOK_ACTIONS.GET_BOOK));
+
+    try {
+      const { data } = await BookConnector.getInstance().getBook(bookId);
+      dispatch(setBookAction(data));
+    } catch (error) {
+      alert(error);
+    }
+
+    dispatch(setLoadedAction(BOOK_ACTIONS.GET_BOOK));
   }
 );

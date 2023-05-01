@@ -6,5 +6,6 @@ export const URLS = {
     GET_RECOMENDATION_BOOKS: (userId: number) =>
       `/api/all-books/recomendations/${userId}`,
     GET_MY_BOOKS: (userId: number) => `/api/my-books/${userId}`,
+    GET_BOOK: (bookId: number) => `/api/all-books/book/${bookId}`,
   },
 };

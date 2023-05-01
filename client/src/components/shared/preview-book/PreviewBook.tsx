@@ -8,13 +8,15 @@ import styles from "./PreviewBook.module.scss";
 
 interface Props {
   bookInfo: Book;
+  onClick: () => void;
 }
 
 export const PreviewBook: FC<Props> = ({
   bookInfo: { author, cover, description, fullBook, name, rate, reviews },
+  onClick,
 }) => {
   return (
-    <div className={styles.main}>
+    <div className={styles.main} onClick={onClick}>
       {/* TO DO*/}
       <img src={tempCover} alt="" className={styles.cover} />
       <div className={styles.info}>
@@ -33,7 +35,14 @@ export const PreviewBook: FC<Props> = ({
           <Chip label="Книги" color="success" size="small" />
         </div>
         <div className={styles.addButton}>
-          <IconButton size="small" color="primary">
+          <IconButton
+            size="small"
+            color="primary"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+          >
             <AddIcon />
           </IconButton>
         </div>

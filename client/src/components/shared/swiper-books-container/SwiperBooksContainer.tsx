@@ -11,12 +11,14 @@ interface Props {
   title: string;
   onClickShowAll: () => void;
   books: Book[];
+  onClickBook: (bookId: number) => void;
 }
 
 export const SwiperBooksContainer: FC<Props> = ({
   books,
   onClickShowAll,
   title,
+  onClickBook,
 }) => {
   return (
     <div className={styles.main}>
@@ -45,6 +47,7 @@ export const SwiperBooksContainer: FC<Props> = ({
               bookName={book.name}
               coverSrc={book.cover}
               key={book.name}
+              onClick={() => onClickBook(book.id)}
             />
           ))}
           <MoreCover onClick={onClickShowAll} />
@@ -57,12 +60,13 @@ export const SwiperBooksContainer: FC<Props> = ({
 interface BookPreviewProps {
   bookName: string;
   coverSrc: string;
+  onClick: () => void;
   isMoreBook?: boolean;
 }
 
-const BookPreview: FC<BookPreviewProps> = ({ bookName, coverSrc }) => {
+const BookPreview: FC<BookPreviewProps> = ({ bookName, coverSrc, onClick }) => {
   return (
-    <div className={styles.bookPreview}>
+    <div className={styles.bookPreview} onClick={onClick}>
       <img src={tempCover} alt="" className={styles.cover} />
       <div className={styles.bookName}>{bookName}</div>
     </div>

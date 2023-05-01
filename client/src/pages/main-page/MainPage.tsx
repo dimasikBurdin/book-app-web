@@ -1,6 +1,7 @@
 import { TextField } from "@mui/material";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import { ContentContainer } from "../../components/shared/content-container";
 import { HeaderContainer } from "../../components/shared/header-container";
 import { Hidder } from "../../components/shared/hidder";
@@ -41,6 +42,7 @@ export const MainPage: FC = () => {
     isLoadingByKeysSelector([BOOK_ACTIONS.GET_RECOMENDATION_BOOKS])
   );
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getBestBooksAsync());
@@ -50,6 +52,13 @@ export const MainPage: FC = () => {
   const changeSubPage = useCallback((page: MainPageSubCategory) => {
     setCurrentCategory(page);
   }, []);
+
+  const onClickBook = useCallback(
+    (bookId: number) => {
+      navigate(`/books/${bookId}`);
+    },
+    [navigate]
+  );
 
   return (
     <div className={styles.main}>
@@ -66,6 +75,7 @@ export const MainPage: FC = () => {
                 changeSubPage(MainPageSubCategory.RECOMENDATION_BOOKS)
               }
               title="Рекомендации дня"
+              onClickBook={onClickBook}
             />
           </Hidder>
           <Hidder isLoading={isLoadingBestBooks}>
@@ -75,6 +85,7 @@ export const MainPage: FC = () => {
                 changeSubPage(MainPageSubCategory.BEST_BOOKS)
               }
               title="Бестселлеры"
+              onClickBook={onClickBook}
             />
           </Hidder>
         </ContentContainer>
@@ -84,6 +95,7 @@ export const MainPage: FC = () => {
           books={bestBooks}
           title="Бестселлеры"
           onClickBack={() => changeSubPage(MainPageSubCategory.ALL)}
+          onClickBook={onClickBook}
         />
       </Hidder>
       <Hidder
@@ -93,6 +105,7 @@ export const MainPage: FC = () => {
           books={recomendationBooks}
           title="Рекомендации дня"
           onClickBack={() => changeSubPage(MainPageSubCategory.ALL)}
+          onClickBook={onClickBook}
         />
       </Hidder>
     </div>

@@ -10,9 +10,15 @@ interface Props {
   title: "Бестселлеры" | "Рекомендации дня";
   books: Book[];
   onClickBack: () => void;
+  onClickBook: (bookId: number) => void;
 }
 
-export const ListBooksPage: FC<Props> = ({ title, onClickBack, books }) => {
+export const ListBooksPage: FC<Props> = ({
+  title,
+  onClickBack,
+  books,
+  onClickBook,
+}) => {
   return (
     <div className={styles.main}>
       <HeaderContainer>
@@ -20,7 +26,11 @@ export const ListBooksPage: FC<Props> = ({ title, onClickBack, books }) => {
       </HeaderContainer>
       <ContentContainer>
         {books.map((book) => (
-          <PreviewBook key={book.id + book.name} bookInfo={book} />
+          <PreviewBook
+            key={book.id + book.name}
+            bookInfo={book}
+            onClick={() => onClickBook(book.id)}
+          />
         ))}
       </ContentContainer>
     </div>

@@ -1,0 +1,80 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .summary {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+
+        .author {
+            font-size: 14px;
+            color: #333333;
+        }
+
+        .cover {
+            margin-top: 12px;
+            width: 154px;
+            height: 237px;
+            border-radius: 12px;
+        }
+    }
+
+    .statstic {
+        box-sizing: border-box;
+        padding: 18px 32px;
+        display: flex;
+        justify-content: space-between;
+        width: 334px;
+        align-self: center;
+        background: #FFFFFF;
+        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+        border-radius: 20px;
+        margin-bottom: -46px;
+        z-index: 1;
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+
+            .count {
+                font-size: 18px;
+                line-height: 18px;
+                color: #828282;
+            }
+
+            .name {
+                font-size: 10px;
+                line-height: 10px;
+                color: #BDBDBD;
+            }
+        }
+    }
+
+    .info {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        padding-top: 34px;
+
+        .badges {
+            display: flex;
+            gap: 4px;
+        }
+
+        .title {
+            font-size: 16px;
+            line-height: 16px;
+            color: #333333;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 8px;
+        }
+    }
+}

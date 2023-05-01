@@ -1,8 +1,10 @@
 import type { FC } from "react";
 import { Book } from "../../../typing/book";
-import Button from "@mui/material-next/Button";
+// import Button from "@mui/material-next/Button";
 import { Stack } from "@mui/system";
 import tempCover from "./Clipboard01.jpg";
+import { Button, IconButton } from "@mui/material";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import styles from "./SwiperBooksContainer.module.scss";
 
 interface Props {
@@ -20,7 +22,12 @@ export const SwiperBooksContainer: FC<Props> = ({
     <div className={styles.main}>
       <div className={styles.header}>
         <div className={styles.title}>{title}</div>
-        <Button size="small" variant="filled">
+        <Button
+          size="small"
+          variant="contained"
+          color="secondary"
+          onClick={onClickShowAll}
+        >
           Все
         </Button>
       </div>
@@ -40,6 +47,7 @@ export const SwiperBooksContainer: FC<Props> = ({
               key={book.name}
             />
           ))}
+          <MoreCover onClick={onClickShowAll} />
         </Stack>
       </div>
     </div>
@@ -49,6 +57,7 @@ export const SwiperBooksContainer: FC<Props> = ({
 interface BookPreviewProps {
   bookName: string;
   coverSrc: string;
+  isMoreBook?: boolean;
 }
 
 const BookPreview: FC<BookPreviewProps> = ({ bookName, coverSrc }) => {
@@ -56,6 +65,20 @@ const BookPreview: FC<BookPreviewProps> = ({ bookName, coverSrc }) => {
     <div className={styles.bookPreview}>
       <img src={tempCover} alt="" className={styles.cover} />
       <div className={styles.bookName}>{bookName}</div>
+    </div>
+  );
+};
+
+interface MoreCoverProps {
+  onClick: () => void;
+}
+
+const MoreCover: FC<MoreCoverProps> = ({ onClick }) => {
+  return (
+    <div className={styles.moreCover}>
+      <IconButton onClick={onClick}>
+        <MoreHorizIcon />
+      </IconButton>
     </div>
   );
 };

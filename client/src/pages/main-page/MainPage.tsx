@@ -1,5 +1,5 @@
 import { TextField } from "@mui/material";
-import { FC, useEffect } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ContentContainer } from "../../components/shared/content-container";
 import { HeaderContainer } from "../../components/shared/header-container";
@@ -18,9 +18,20 @@ import {
   isLoadingByKeysSelector,
 } from "../../redux-store/selectors";
 import { useAppDispatch } from "../../redux-store/store-manager";
+import { ListBooksPage } from "./components/list-books-page";
 import styles from "./MainPage.module.scss";
 
+export enum MainPageSubCategory {
+  BEST_BOOKS,
+  RECOMENDATION_BOOKS,
+  CURRENT_BOOK,
+  ALL,
+}
+
 export const MainPage: FC = () => {
+  const [currentCategory, setCurrentCategory] = useState<MainPageSubCategory>(
+    MainPageSubCategory.ALL
+  );
   const bestBooks = useSelector(getBestBooksSelector);
   const recomendationBooks = useSelector(getRecomendationBooksSelector);
   const isLoadingBestBooks = useSelector(
@@ -36,28 +47,58 @@ export const MainPage: FC = () => {
     dispatch(getRecomendationBooksAsync());
   }, [dispatch]);
 
+  const changeSubPage = useCallback((page: MainPageSubCategory) => {
+    setCurrentCategory(page);
+  }, []);
+
+  useEffect(() => {
+    console.log(currentCategory);
+  }, [currentCategory]);
+
   return (
     <div className={styles.main}>
-      <HeaderContainer>
-        <MobileHeader title="Библиотека" onClickBack={undefined} />
-        <TextField size="small" placeholder="Название книги или автор" />
-      </HeaderContainer>
-      <ContentContainer>
-        <Hidder isLoading={isLoadingRecomendationBooks}>
-          <SwiperBooksContainer
-            books={recomendationBooks}
-            onClickShowAll={() => {}}
-            title="Рекомендации дня"
-          />
-        </Hidder>
-        <Hidder isLoading={isLoadingBestBooks}>
-          <SwiperBooksContainer
-            books={bestBooks}
-            onClickShowAll={() => {}}
-            title="Бестселлеры"
-          />
-        </Hidder>
-      </ContentContainer>
+      <Hidder condition={currentCategory === MainPageSubCategory.ALL}>
+        <HeaderContainer>
+          <MobileHeader title="Библиотека" onClickBack={undefined} />
+          <TextField size="small" placeholder="Название книги или автор" />
+        </HeaderContainer>
+        <ContentContainer>
+          <Hidder isLoading={isLoadingRecomendationBooks}>
+            <SwiperBooksContainer
+              books={recomendationBooks.slice(0, 10)}
+              onClickShowAll={() =>
+                changeSubPage(MainPageSubCategory.RECOMENDATION_BOOKS)
+              }
+              title="Рекомендации дня"
+            />
+          </Hidder>
+          <Hidder isLoading={isLoadingBestBooks}>
+            <SwiperBooksContainer
+              books={bestBooks.slice(0, 10)}
+              onClickShowAll={() =>
+                changeSubPage(MainPageSubCategory.BEST_BOOKS)
+              }
+              title="Бестселлеры"
+            />
+          </Hidder>
+        </ContentContainer>
+      </Hidder>
+      <Hidder condition={currentCategory === MainPageSubCategory.BEST_BOOKS}>
+        <ListBooksPage
+          books={bestBooks}
+          title="Бестселлеры"
+          onClickBack={() => changeSubPage(MainPageSubCategory.ALL)}
+        />
+      </Hidder>
+      <Hidder
+        condition={currentCategory === MainPageSubCategory.RECOMENDATION_BOOKS}
+      >
+        <ListBooksPage
+          books={recomendationBooks}
+          title="Рекомендации дня"
+          onClickBack={() => changeSubPage(MainPageSubCategory.ALL)}
+        />
+      </Hidder>
     </div>
   );
 };

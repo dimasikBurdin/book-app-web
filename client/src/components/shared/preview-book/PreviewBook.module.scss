@@ -1,0 +1,39 @@
+.main {
+    display: flex;
+    gap: 12px;
+
+    .cover {
+        width: 130px;
+        height: 200px;
+        border-radius: 12px;
+    }
+
+    .info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        .title {
+            font-size: 18px;
+            line-height: 18px;
+            color: #333333;
+        }
+
+        .author {
+            font-size: 14px;
+            line-height: 14px;
+            color: #828282;
+        }
+
+        .description {
+            font-size: 12px;
+            line-height: 100%;
+            color: #BDBDBD;
+        }
+
+        .addButton {
+            width: 16px;
+            height: 16px;
+        }
+    }
+}

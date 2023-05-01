@@ -24,13 +24,13 @@ export class AllBooksService {
     });
   }
 
-  public getRecomendations(userId: number, limit = 10): Promise<Book[]> {
+  public getRecomendations(userId: number, limit = 30): Promise<Book[]> {
     return this.repository
       .findOne({ where: { id: 1 } })
       .then((e) => e.books.sort(() => 0.5 - Math.random()).slice(0, limit));
   }
 
-  public getBestBooks(limit = 10): Promise<Book[]> {
+  public getBestBooks(limit = 30): Promise<Book[]> {
     return this.repository
       .findOne({ where: { id: 1 } })
       .then((e) => e.books.sort(() => 0.5 - Math.random()).slice(0, limit));

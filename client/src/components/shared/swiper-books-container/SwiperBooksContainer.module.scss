@@ -28,6 +28,7 @@
     .cover {
         width: 100px;
         height: 156px;
+        border-radius: 12px;
     }
 
     .bookName {
@@ -36,4 +37,15 @@
         line-height: 10px;
         color: #BDBDBD;
     }
+}
+
+.moreCover {
+    flex-shrink: 0;
+    border: 1px solid #BDBDBD;
+    border-radius: 12px;
+    width: 100px;
+    height: 156px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

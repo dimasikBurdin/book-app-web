@@ -1,4 +1,4 @@
-import { CircularProgress } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import { FC, lazy, Suspense } from "react";
 import { Route, Routes } from "react-router";
 import { ROUTES } from "../../config/routes";
@@ -14,7 +14,13 @@ export const Routing: FC = () => {
   const NotFoundPage = lazy(() => import("./components/not-found-page/index"));
 
   return (
-    <Suspense fallback={<CircularProgress />}>
+    <Suspense
+      fallback={
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <CircularProgress />
+        </Box>
+      }
+    >
       <AppContainer>
         <Routes>
           <Route path={ROUTES.MAIN_PAGE} element={<MainPage />} />

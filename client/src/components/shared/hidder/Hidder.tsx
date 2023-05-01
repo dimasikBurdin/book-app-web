@@ -1,4 +1,4 @@
-import { CircularProgress } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import type { FC, PropsWithChildren } from "react";
 
 interface Props {
@@ -15,7 +15,11 @@ export const Hidder: FC<PropsWithChildren<Props>> = ({
     return <>{children}</>;
   }
   if (isLoading) {
-    return <CircularProgress />;
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <CircularProgress />
+      </Box>
+    );
   }
 
   return null;

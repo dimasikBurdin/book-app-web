@@ -1,37 +1,63 @@
-import { CircularProgress } from "@mui/material";
+import { TextField } from "@mui/material";
 import { FC, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { BOOK_ACTIONS, getBestBooksAsync } from "../../redux-store/actions";
+import { ContentContainer } from "../../components/shared/content-container";
+import { HeaderContainer } from "../../components/shared/header-container";
+import { Hidder } from "../../components/shared/hidder";
+import { MobileHeader } from "../../components/shared/mobile-header";
+import { SwiperBooksContainer } from "../../components/shared/swiper-books-container";
+
+import {
+  BOOK_ACTIONS,
+  getBestBooksAsync,
+  getRecomendationBooksAsync,
+} from "../../redux-store/actions";
 import {
   getBestBooksSelector,
+  getRecomendationBooksSelector,
   isLoadingByKeysSelector,
 } from "../../redux-store/selectors";
 import { useAppDispatch } from "../../redux-store/store-manager";
-
 import styles from "./MainPage.module.scss";
 
 export const MainPage: FC = () => {
   const bestBooks = useSelector(getBestBooksSelector);
-  const isLoading = useSelector(
+  const recomendationBooks = useSelector(getRecomendationBooksSelector);
+  const isLoadingBestBooks = useSelector(
     isLoadingByKeysSelector([BOOK_ACTIONS.GET_BEST_BOOKS])
   );
-
+  const isLoadingRecomendationBooks = useSelector(
+    isLoadingByKeysSelector([BOOK_ACTIONS.GET_RECOMENDATION_BOOKS])
+  );
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     dispatch(getBestBooksAsync());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    dispatch(getRecomendationBooksAsync());
+  }, [dispatch]);
 
   return (
     <div className={styles.main}>
-      {isLoading && <CircularProgress />}
-      {!isLoading &&
-        bestBooks.map(({ author, name }) => (
-          <div key={name}>
-            <div>{author}</div>
-            <div>{name}</div>
-          </div>
-        ))}
+      <HeaderContainer>
+        <MobileHeader title="Библиотека" onClickBack={undefined} />
+        <TextField size="small" placeholder="Название книги или автор" />
+      </HeaderContainer>
+      <ContentContainer>
+        <Hidder isLoading={isLoadingRecomendationBooks}>
+          <SwiperBooksContainer
+            books={recomendationBooks}
+            onClickShowAll={() => {}}
+            title="Рекомендации дня"
+          />
+        </Hidder>
+        <Hidder isLoading={isLoadingBestBooks}>
+          <SwiperBooksContainer
+            books={bestBooks}
+            onClickShowAll={() => {}}
+            title="Бестселлеры"
+          />
+        </Hidder>
+      </ContentContainer>
     </div>
   );
 };

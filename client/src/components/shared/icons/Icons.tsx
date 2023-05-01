@@ -3,7 +3,7 @@ import bookIcon from "./img/book.svg";
 import compassIcon from "./img/compass.svg";
 import friendsIcon from "./img/friends.svg";
 import profileIcon from "./img/profile.svg";
-import styles from "./icons.module.scss";
+import backIcon from "./img/ArrowBack.svg";
 
 export const BooksIcon: FC = () => {
   return <img src={bookIcon} alt="" />;
@@ -19,4 +19,8 @@ export const FriendsIcon: FC = () => {
 
 export const ProfileIcon: FC = () => {
   return <img src={profileIcon} alt="" />;
+};
+
+export const BackIcon: FC = () => {
+  return <img src={backIcon} alt="" />;
 };

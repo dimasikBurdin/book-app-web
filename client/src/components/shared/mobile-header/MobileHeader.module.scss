@@ -1,0 +1,16 @@
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    position: relative;
+
+    .backButton {
+        position: absolute;
+        left: 0px;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+}

@@ -12,8 +12,8 @@ import {
 } from "../../redux-store/selectors";
 import { useAppDispatch } from "../../redux-store/store-manager";
 import tempCover from "./Clipboard01.jpg";
-import styles from "./BookPage.module.scss";
 import { ContentContainer } from "../../components/shared/content-container";
+import styles from "./BookPage.module.scss";
 
 export const BookPage: FC = () => {
   const dispatch = useAppDispatch();
@@ -49,23 +49,10 @@ export const BookPage: FC = () => {
           <img className={styles.cover} src={tempCover} alt="" />
         </div>
         <div className={styles.statstic}>
-          {/* TODO в компонент */}
-          <div className={styles.container}>
-            <div className={styles.count}>18K</div>
-            <div className={styles.name}>читают</div>
-          </div>
-          <div className={styles.container}>
-            <div className={styles.count}>9K</div>
-            <div className={styles.name}>цитаты</div>
-          </div>
-          <div className={styles.container}>
-            <div className={styles.count}>1K</div>
-            <div className={styles.name}>полок</div>
-          </div>
-          <div className={styles.container}>
-            <div className={styles.count}>1K</div>
-            <div className={styles.name}>впечатления</div>
-          </div>
+          <StatsticContainer count="18K" name="читают" />
+          <StatsticContainer count="9K" name="цитаты" />
+          <StatsticContainer count="1K" name="полок" />
+          <StatsticContainer count="1K" name="впечатления" />
         </div>
         <ContentContainer>
           <div className={styles.info}>
@@ -89,5 +76,19 @@ export const BookPage: FC = () => {
         </ContentContainer>
       </div>
     </Hidder>
+  );
+};
+
+interface StatsticContainerProps {
+  count: string;
+  name: string;
+}
+
+const StatsticContainer: FC<StatsticContainerProps> = ({ count, name }) => {
+  return (
+    <div className={styles.container}>
+      <div className={styles.count}>{count}</div>
+      <div className={styles.name}>{name}</div>
+    </div>
   );
 };

@@ -34,25 +34,6 @@
         border-radius: 20px;
         margin-bottom: -46px;
         z-index: 1;
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-
-            .count {
-                font-size: 18px;
-                line-height: 18px;
-                color: #828282;
-            }
-
-            .name {
-                font-size: 10px;
-                line-height: 10px;
-                color: #BDBDBD;
-            }
-        }
     }
 
     .info {
@@ -76,5 +57,24 @@
             display: flex;
             gap: 8px;
         }
+    }
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+
+    .count {
+        font-size: 18px;
+        line-height: 18px;
+        color: #828282;
+    }
+
+    .name {
+        font-size: 10px;
+        line-height: 10px;
+        color: #BDBDBD;
     }
 }

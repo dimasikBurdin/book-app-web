@@ -12,6 +12,7 @@ export const Routing: FC = () => {
   );
   const BestBookPage = lazy(() => import("../../pages/best-books-page/index"));
   const ProfilePage = lazy(() => import("../../pages/profile-page/index"));
+  const SettingsPage = lazy(() => import("../../pages/settings-page/index"));
   const NotFoundPage = lazy(() => import("./components/not-found-page/index"));
 
   return (
@@ -34,6 +35,7 @@ export const Routing: FC = () => {
           <Route path={ROUTES.MY_BOOKS_PAGE} element={<>my_books_page</>} />
           <Route path={ROUTES.POPULAR} element={<>popular</>} />
           <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
+          <Route path={ROUTES.SETTINGS} element={<SettingsPage />} />
           <Route path={"*"} element={<NotFoundPage />} />
         </Routes>
       </AppContainer>

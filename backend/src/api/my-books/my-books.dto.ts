@@ -8,9 +8,9 @@ export class CreateMyBooksDto {
   public userId: number;
 }
 
-export class GetBooksByTypeDto extends CreateMyBooksDto {
+export class GetBooksByTypeDto {
   @ApiProperty({ enum: BookTypes })
-  @IsEnum(BookTypes)
   @IsOptional()
+  @IsEnum(BookTypes)
   public type: BookTypes | null;
 }

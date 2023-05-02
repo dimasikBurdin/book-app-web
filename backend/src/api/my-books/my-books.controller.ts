@@ -6,6 +6,7 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Query,
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { CreateMyBookDto } from "../my-book/my-book.dto";
@@ -20,12 +21,12 @@ export class MyBooksController {
   @Inject(MyBooksService)
   private readonly service: MyBooksService;
 
-  @Get(":id") // get all table
+  @Get("book/:id") // get all table
   public getMyBooks(@Param("id", ParseIntPipe) id: number): Promise<MyBooks> {
     return this.service.getMyBooks(id);
   }
 
-  @Post()
+  @Post("/create-books-table-temp")
   public createMyBooks(@Body() body: CreateMyBooksDto): Promise<MyBooks> {
     return this.service.createMyBooks(body);
   }
@@ -43,8 +44,11 @@ export class MyBooksController {
     return this.service.getMyBook(userId, bookId);
   }
 
-  @Post("get-books-by-type")
-  public getBooksByType(@Body() body: GetBooksByTypeDto): Promise<MyBook[]> {
-    return this.service.getMyBooksByType(body);
+  @Get(":userId")
+  public getMyBooksByType(
+    @Param("userId", ParseIntPipe) userId: number,
+    @Query() query: GetBooksByTypeDto,
+  ): Promise<MyBook[]> {
+    return this.service.getMyBooksByType({ userId, type: query.type });
   }
 }

@@ -20,7 +20,27 @@ export const getRecomendationBooksSelector = createSelector(
 export const getMyBooksSelector = createSelector(
   [bookSelector],
   ({ myBooks }) => {
-    return myBooks;
+    return myBooks.allMyBooks;
+  }
+);
+
+export const getMyReadingBooksSelector = createSelector(
+  [bookSelector],
+  ({ myBooks }) => {
+    return myBooks.readingMyBooks;
+  }
+);
+
+export const getMyWantReadBooksSelector = createSelector(
+  [bookSelector],
+  ({ myBooks }) => {
+    return myBooks.wantReadMyBooks;
+  }
+);
+export const getMyFinishedBooksSelector = createSelector(
+  [bookSelector],
+  ({ myBooks }) => {
+    return myBooks.finishedMyBooks;
   }
 );
 

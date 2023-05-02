@@ -21,4 +21,11 @@ export type BestBooks = Books;
 
 export type RecomendationBooks = Books;
 
-export type MyBooks = Books;
+export type MyBook = {
+  book: {
+    book: Book;
+    type: BookTypes;
+  };
+};
+
+export type MyBooks = MyBook[];

@@ -14,8 +14,14 @@ export enum BOOK_ACTIONS {
   SET_BEST_BOOKS = "[BOOKS] SET_BEST_BOOKS",
   GET_RECOMENDATION_BOOKS = "[BOOKS] GET_RECOMENDATION_BOOKS",
   SET_RECOMENDATION_BOOKS = "[BOOKS] SET_RECOMENDATION_BOOKS",
-  GET_MY_BOOKS_BOOKS = "[BOOKS] GET_MY_BOOKS_BOOKS",
-  SET_MY_BOOKS_BOOKS = "[BOOKS] SET_MY_BOOKS_BOOKS",
+  GET_MY_BOOKS = "[BOOKS] GET_MY_BOOKS",
+  SET_MY_BOOKS = "[BOOKS] SET_MY_BOOKS",
+  GET_MY_READING_BOOKS = "[BOOKS] GET_MY_READING_BOOKS",
+  SET_MY_READING_BOOKS = "[BOOKS] SET_MY_READING_BOOKS",
+  GET_MY_WANT_READ_BOOKS = "[BOOKS] GET_MY_WANT_READ_BOOKS",
+  SET_MY_WANT_READ_BOOKS = "[BOOKS] SET_MY_WANT_READ_BOOKS",
+  GET_MY_FINISHED_BOOKS = "[BOOKS] GET_MY_FINISHED_BOOKS",
+  SET_MY_FINISHED_BOOKS = "[BOOKS] SET_MY_FINISHED_BOOKS",
   GET_BOOK = "[BOOKS] GET_BOOK",
   SET_BOOK = "[BOOKS] SET_BOOK",
 }
@@ -29,7 +35,19 @@ export const setRecomendationBooksAction = createAction<RecomendationBooks>(
 );
 
 export const setMyBooksAction = createAction<MyBooks>(
-  BOOK_ACTIONS.SET_MY_BOOKS_BOOKS
+  BOOK_ACTIONS.SET_MY_BOOKS
+);
+
+export const setMyReadingBooksAction = createAction<MyBooks>(
+  BOOK_ACTIONS.SET_MY_READING_BOOKS
+);
+
+export const setMyWantReadBooksAction = createAction<MyBooks>(
+  BOOK_ACTIONS.SET_MY_WANT_READ_BOOKS
+);
+
+export const setMyFinishedBooksAction = createAction<MyBooks>(
+  BOOK_ACTIONS.SET_MY_FINISHED_BOOKS
 );
 
 export const setBookAction = createAction<Book>(BOOK_ACTIONS.SET_BOOK);
@@ -70,9 +88,9 @@ export const getRecomendationBooksAsync = createAsyncThunk(
 );
 
 export const getMyBooksAsync = createAsyncThunk(
-  BOOK_ACTIONS.GET_MY_BOOKS_BOOKS,
+  BOOK_ACTIONS.GET_MY_BOOKS,
   async (_, { dispatch, getState }) => {
-    dispatch(setLoadingAction(BOOK_ACTIONS.GET_MY_BOOKS_BOOKS));
+    dispatch(setLoadingAction(BOOK_ACTIONS.GET_MY_BOOKS));
 
     try {
       const userId = (getState() as Store).common.userId;
@@ -82,7 +100,62 @@ export const getMyBooksAsync = createAsyncThunk(
       alert(error);
     }
 
-    dispatch(setLoadedAction(BOOK_ACTIONS.GET_MY_BOOKS_BOOKS));
+    dispatch(setLoadedAction(BOOK_ACTIONS.GET_MY_BOOKS));
+  }
+);
+
+export const getMyReadingBooksAsync = createAsyncThunk(
+  BOOK_ACTIONS.SET_MY_READING_BOOKS,
+  async (_, { dispatch, getState }) => {
+    dispatch(setLoadingAction(BOOK_ACTIONS.SET_MY_READING_BOOKS));
+
+    try {
+      const userId = (getState() as Store).common.userId;
+      const { data } = await BookConnector.getInstance().getMyReadingBooks(
+        userId
+      );
+      dispatch(setMyReadingBooksAction(data));
+    } catch (error) {
+      alert(error);
+    }
+
+    dispatch(setLoadedAction(BOOK_ACTIONS.SET_MY_READING_BOOKS));
+  }
+);
+export const getMyWantReadBooksAsync = createAsyncThunk(
+  BOOK_ACTIONS.SET_MY_WANT_READ_BOOKS,
+  async (_, { dispatch, getState }) => {
+    dispatch(setLoadingAction(BOOK_ACTIONS.SET_MY_WANT_READ_BOOKS));
+
+    try {
+      const userId = (getState() as Store).common.userId;
+      const { data } = await BookConnector.getInstance().getMyWantReadBooks(
+        userId
+      );
+      dispatch(setMyWantReadBooksAction(data));
+    } catch (error) {
+      alert(error);
+    }
+
+    dispatch(setLoadedAction(BOOK_ACTIONS.SET_MY_WANT_READ_BOOKS));
+  }
+);
+export const getMyFinishedBooksAsync = createAsyncThunk(
+  BOOK_ACTIONS.SET_MY_FINISHED_BOOKS,
+  async (_, { dispatch, getState }) => {
+    dispatch(setLoadingAction(BOOK_ACTIONS.SET_MY_FINISHED_BOOKS));
+
+    try {
+      const userId = (getState() as Store).common.userId;
+      const { data } = await BookConnector.getInstance().getMyFinishedBooks(
+        userId
+      );
+      dispatch(setMyFinishedBooksAction(data));
+    } catch (error) {
+      alert(error);
+    }
+
+    dispatch(setLoadedAction(BOOK_ACTIONS.SET_MY_FINISHED_BOOKS));
   }
 );
 

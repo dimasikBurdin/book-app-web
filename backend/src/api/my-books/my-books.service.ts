@@ -1,10 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { Book } from "../book/book.entity";
+import { AllBooks } from "../all-books/all-books.entity";
 import { CreateMyBookDto } from "../my-book/my-book.dto";
 import { MyBook } from "../my-book/my-book.entity";
-import { CreateMyBooksDto, GetBooksByTypeDto } from "./my-books.dto";
+import { BookTypes } from "../typing/myBook";
+import { CreateMyBooksDto } from "./my-books.dto";
 import { MyBooks } from "./my-books.entity";
 
 @Injectable()
@@ -12,8 +13,8 @@ export class MyBooksService {
   @InjectRepository(MyBooks)
   private readonly repository: Repository<MyBooks>;
 
-  @InjectRepository(Book)
-  private readonly bookRepository: Repository<Book>;
+  @InjectRepository(AllBooks)
+  private readonly bookRepository: Repository<AllBooks>;
 
   public getMyBooks(userId: number): Promise<MyBooks> {
     return this.repository.findOne({ where: { userId } });
@@ -36,9 +37,11 @@ export class MyBooksService {
       where: { userId: userId },
     });
 
-    const newBook = await this.bookRepository.findOne({
-      where: { id: bookId },
-    });
+    const newBook = await this.bookRepository
+      .findOne({
+        where: { id: 1 },
+      })
+      .then((e) => e.books.find((book) => book.id === bookId));
 
     return this.repository.update(myBooks.id, {
       books: [
@@ -64,7 +67,10 @@ export class MyBooksService {
   public async getMyBooksByType({
     type,
     userId,
-  }: GetBooksByTypeDto): Promise<MyBook[]> {
+  }: {
+    type: BookTypes | null;
+    userId: number;
+  }): Promise<MyBook[]> {
     const myBooks = await this.repository.findOne({
       where: { userId },
     });

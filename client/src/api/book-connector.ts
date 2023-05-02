@@ -26,6 +26,18 @@ export class BookConnector extends PrimaryConnector<ConnectorFlow.BOOKS> {
     return axios.get<MyBooks>(this.urls.GET_MY_BOOKS(userId));
   };
 
+  public getMyReadingBooks = (userId: number) => {
+    return axios.get<MyBooks>(this.urls.GET_MY_READING_BOOKS(userId));
+  };
+
+  public getMyWantReadBooks = (userId: number) => {
+    return axios.get<MyBooks>(this.urls.GET_MY_WANT_READ_BOOKS(userId));
+  };
+
+  public getMyFinishedBooks = (userId: number) => {
+    return axios.get<MyBooks>(this.urls.GET_MY_FINISHED_BOOKS(userId));
+  };
+
   public getBook = (bookId: number) => {
     return axios.get<Book>(this.urls.GET_BOOK(bookId));
   };

@@ -4,12 +4,20 @@ import {
   setBestBooksAction,
   setBookAction,
   setMyBooksAction,
+  setMyFinishedBooksAction,
+  setMyReadingBooksAction,
+  setMyWantReadBooksAction,
   setRecomendationBooksAction,
 } from "../actions";
 
 const initialState: BookStore = {
   bestBooks: [],
-  myBooks: [],
+  myBooks: {
+    allMyBooks: [],
+    finishedMyBooks: [],
+    readingMyBooks: [],
+    wantReadMyBooks: [],
+  },
   recomendations: [],
   currentBook: null,
 };
@@ -40,7 +48,49 @@ const setMyBooks = (
 ): BookStore => {
   return {
     ...state,
-    myBooks: action.payload,
+    myBooks: {
+      ...state.myBooks,
+      allMyBooks: action.payload,
+    },
+  };
+};
+
+const setMyReadingBooks = (
+  state: BookStore,
+  action: ReturnType<typeof setMyReadingBooksAction>
+): BookStore => {
+  return {
+    ...state,
+    myBooks: {
+      ...state.myBooks,
+      readingMyBooks: action.payload,
+    },
+  };
+};
+
+const setMyWantReadBooks = (
+  state: BookStore,
+  action: ReturnType<typeof setMyWantReadBooksAction>
+): BookStore => {
+  return {
+    ...state,
+    myBooks: {
+      ...state.myBooks,
+      wantReadMyBooks: action.payload,
+    },
+  };
+};
+
+const setMyFinishedBooks = (
+  state: BookStore,
+  action: ReturnType<typeof setMyFinishedBooksAction>
+): BookStore => {
+  return {
+    ...state,
+    myBooks: {
+      ...state.myBooks,
+      finishedMyBooks: action.payload,
+    },
   };
 };
 
@@ -59,5 +109,8 @@ export const bookReducer = createReducer(initialState, (builder) => {
     .addCase(setBestBooksAction, setBestBooks)
     .addCase(setRecomendationBooksAction, setRecomendationBooks)
     .addCase(setBookAction, setBook)
-    .addCase(setMyBooksAction, setMyBooks);
+    .addCase(setMyBooksAction, setMyBooks)
+    .addCase(setMyReadingBooksAction, setMyReadingBooks)
+    .addCase(setMyWantReadBooksAction, setMyWantReadBooks)
+    .addCase(setMyFinishedBooksAction, setMyFinishedBooks);
 });

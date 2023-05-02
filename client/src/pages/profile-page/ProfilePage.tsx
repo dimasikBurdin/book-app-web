@@ -49,7 +49,11 @@ export const ProfilePage: FC = () => {
   return (
     <div className={styles.main}>
       <HeaderContainer>
-        <MobileHeader title="Профиль" />
+        <MobileHeader
+          title="Профиль"
+          typeRightButton="settings"
+          onClickRightButton={() => changePage(ROUTES.SETTINGS)}
+        />
       </HeaderContainer>
       <div className={styles.content}>
         <ContentContainer>

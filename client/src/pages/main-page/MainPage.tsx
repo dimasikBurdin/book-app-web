@@ -63,7 +63,7 @@ export const MainPage: FC = () => {
   return (
     <div className={styles.main}>
       <HeaderContainer>
-        <MobileHeader title="Библиотека" onClickBack={undefined} />
+        <MobileHeader title="Библиотека" />
         <TextField size="small" placeholder="Название книги или автор" />
       </HeaderContainer>
       <ContentContainer>

@@ -6,4 +6,5 @@ export enum ROUTES {
   MY_BOOKS_PAGE = "/my-books",
   POPULAR = "popular",
   PROFILE = "profile",
+  SETTINGS = "settings",
 }

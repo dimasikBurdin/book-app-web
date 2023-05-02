@@ -1,0 +1,27 @@
+.main {
+    display: flex;
+    gap: 30px;
+
+    .avatar {
+        width: 100px;
+        height: 100px;
+    }
+
+    .info {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        .name {
+            font-size: 18px;
+            line-height: 18px;
+            color: #333333;
+        }
+
+        .id {
+            font-size: 10px;
+            line-height: 10px;
+            color: #828282;
+        }
+    }
+}

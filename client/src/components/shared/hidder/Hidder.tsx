@@ -8,7 +8,7 @@ interface Props {
 
 export const Hidder: FC<PropsWithChildren<Props>> = ({
   children,
-  isLoading,
+  isLoading = false,
   condition = true,
 }) => {
   if (condition && !isLoading) {

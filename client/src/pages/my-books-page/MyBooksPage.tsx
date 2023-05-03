@@ -1,10 +1,11 @@
-import { Button, TextField } from "@mui/material";
-import { FC, useCallback, useEffect, useMemo } from "react";
+import { Button } from "@mui/material";
+import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { ContentContainer } from "../../components/shared/content-container";
 import { HeaderContainer } from "../../components/shared/header-container";
 import { Hidder } from "../../components/shared/hidder";
+import { ListBooksPage } from "../../components/shared/list-books-page";
 import { MobileHeader } from "../../components/shared/mobile-header";
 import { SwiperBooksContainer } from "../../components/shared/swiper-books-container";
 import { ROUTES } from "../../config/routes";
@@ -23,9 +24,17 @@ import {
   isLoadingByKeysSelector,
 } from "../../redux-store/selectors";
 import { useAppDispatch } from "../../redux-store/store-manager";
+import { Book } from "../../typing/book";
 import styles from "./MyBooksPage.module.scss";
 
+type CategoryItems = {
+  title: string;
+  books: Book[];
+  isLoading: boolean;
+}[];
+
 export const MyBooksPage: FC = () => {
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const myAllBooks = useSelector(getMyBooksSelector);
   const myReadingBooks = useSelector(getMyReadingBooksSelector);
   const myWantBooks = useSelector(getMyWantReadBooksSelector);
@@ -69,9 +78,44 @@ export const MyBooksPage: FC = () => {
     return myFinishedBooks.map((book) => book.book.book);
   }, [myFinishedBooks]);
 
+  // TO DO ето надо получать с бека
+  const categoryItems: CategoryItems = useMemo((): CategoryItems => {
+    return [
+      {
+        title: "Читаю сейчас",
+        books: preparedMyReadingBooks,
+        isLoading: isLoadingMyReadingBooks,
+      },
+      {
+        title: "Все книги",
+        books: preparedMyAllBooks,
+        isLoading: isLoadingMyBooks,
+      },
+      {
+        title: "Законченные",
+        books: preparedMyFinishedBooks,
+        isLoading: isLoadingMyFinishedBooks,
+      },
+      {
+        title: "Хочу прочитать",
+        books: preparedMyWantReadBooks,
+        isLoading: isLoadingMyWantBooks,
+      },
+    ];
+  }, [
+    isLoadingMyBooks,
+    isLoadingMyFinishedBooks,
+    isLoadingMyReadingBooks,
+    isLoadingMyWantBooks,
+    preparedMyAllBooks,
+    preparedMyFinishedBooks,
+    preparedMyReadingBooks,
+    preparedMyWantReadBooks,
+  ]);
+
   const changePage = useCallback(
     (page: ROUTES | number) => {
-      if (!Number.isNaN(page)) {
+      if (!Number.isNaN(+page)) {
         navigate(page as number);
       } else {
         navigate(`/${page}`);
@@ -87,80 +131,64 @@ export const MyBooksPage: FC = () => {
     [navigate]
   );
 
+  const onClickShowAll = useCallback((index: number) => {
+    setSelectedCategory(index);
+  }, []);
+
+  const closeCategory = useCallback(() => {
+    setSelectedCategory(null);
+  }, []);
+
   return (
     <div className={styles.main}>
-      <HeaderContainer>
-        <MobileHeader title="Мои книги" />
-      </HeaderContainer>
-      <div className={styles.content}>
-        <ContentContainer>
-          <Hidder isLoading={isLoadingMyReadingBooks}>
-            <SwiperBooksContainer
-              books={preparedMyReadingBooks.slice(0, 10)}
-              onClickShowAll={() =>
-                changePage(ROUTES.RECOMMENDATION_BOOKS_PAGE)
-              }
-              title="Читаю сейчас"
-              onClickBook={onClickBook}
-            />
-          </Hidder>
-        </ContentContainer>
-        <ContentContainer>
-          <Hidder isLoading={isLoadingMyBooks}>
-            <SwiperBooksContainer
-              books={preparedMyAllBooks.slice(0, 10)}
-              onClickShowAll={() =>
-                changePage(ROUTES.RECOMMENDATION_BOOKS_PAGE)
-              }
-              title="Все книги"
-              onClickBook={onClickBook}
-            />
-          </Hidder>
-        </ContentContainer>
-        <ContentContainer>
-          <Hidder isLoading={isLoadingMyFinishedBooks}>
-            <SwiperBooksContainer
-              books={preparedMyFinishedBooks.slice(0, 10)}
-              onClickShowAll={() =>
-                changePage(ROUTES.RECOMMENDATION_BOOKS_PAGE)
-              }
-              title="Законченные"
-              onClickBook={onClickBook}
-            />
-          </Hidder>
-        </ContentContainer>
-        <ContentContainer>
-          <Hidder isLoading={isLoadingMyWantBooks}>
-            <SwiperBooksContainer
-              books={preparedMyWantReadBooks.slice(0, 10)}
-              onClickShowAll={() =>
-                changePage(ROUTES.RECOMMENDATION_BOOKS_PAGE)
-              }
-              title="Хочу прочитать"
-              onClickBook={onClickBook}
-            />
-          </Hidder>
-        </ContentContainer>
-        <ContentContainer>
-          <Hidder isLoading={isLoadingMyBooks}>Сводка</Hidder>
-        </ContentContainer>
-        <div className={styles.buttons}>
-          <Button
-            variant="contained"
-            fullWidth
-            style={{ fontSize: 12, borderRadius: 24, padding: 12 }}
-          >
-            Загрузить книгу
-          </Button>
-          <Button
-            variant="contained"
-            fullWidth
-            style={{ fontSize: 12, borderRadius: 24, padding: 12 }}
-          >
-            Добавить полку
-          </Button>
+      <Hidder condition={selectedCategory === null}>
+        <HeaderContainer>
+          <MobileHeader title="Мои книги" />
+        </HeaderContainer>
+        <div className={styles.content}>
+          {categoryItems.map(({ books, title, isLoading }, index) => (
+            <ContentContainer key={title}>
+              <Hidder isLoading={isLoading}>
+                <SwiperBooksContainer
+                  books={books.slice(0, 10)}
+                  onClickShowAll={() => onClickShowAll(index)}
+                  title={title}
+                  onClickBook={onClickBook}
+                />
+              </Hidder>
+            </ContentContainer>
+          ))}
+          <ContentContainer>
+            <Hidder isLoading={isLoadingMyBooks}>Сводка</Hidder>
+          </ContentContainer>
+          <div className={styles.buttons}>
+            <Button
+              variant="contained"
+              fullWidth
+              style={{ fontSize: 12, borderRadius: 24, padding: 12 }}
+            >
+              Загрузить книгу
+            </Button>
+            <Button
+              variant="contained"
+              fullWidth
+              style={{ fontSize: 12, borderRadius: 24, padding: 12 }}
+            >
+              Добавить полку
+            </Button>
+          </div>
         </div>
-      </div>
+      </Hidder>
+      <Hidder condition={selectedCategory !== null}>
+        {selectedCategory !== null && (
+          <ListBooksPage
+            books={categoryItems[selectedCategory].books}
+            onClickBack={closeCategory}
+            onClickBook={onClickBook}
+            title={categoryItems[selectedCategory].title}
+          />
+        )}
+      </Hidder>
     </div>
   );
 };

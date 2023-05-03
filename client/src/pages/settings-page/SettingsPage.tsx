@@ -5,16 +5,16 @@ import { ContentContainer } from "../../components/shared/content-container";
 import { HeaderContainer } from "../../components/shared/header-container";
 import { MobileHeader } from "../../components/shared/mobile-header";
 import { ROUTES } from "../../config/routes";
-import { useAppDispatch } from "../../redux-store/store-manager";
+// import { useAppDispatch } from "../../redux-store/store-manager";
 import styles from "./SettingsPage.module.scss";
 
 export const SettingsPage: FC = () => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const changePage = useCallback(
     (page: ROUTES | number) => {
-      if (!Number.isNaN(page)) {
+      if (!Number.isNaN(+page)) {
         navigate(page as number);
       } else {
         navigate(`/${page}`);

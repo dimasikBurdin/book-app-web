@@ -1,13 +1,13 @@
 import type { FC } from "react";
-import { ContentContainer } from "../../../../components/shared/content-container";
-import { HeaderContainer } from "../../../../components/shared/header-container";
-import { MobileHeader } from "../../../../components/shared/mobile-header";
-import { PreviewBook } from "../../../../components/shared/preview-book";
-import { Book } from "../../../../typing/book";
+import { ContentContainer } from "../content-container";
+import { HeaderContainer } from "../header-container";
+import { MobileHeader } from "../mobile-header";
+import { PreviewBook } from "../preview-book";
+import { Book } from "../../../typing/book";
 import styles from "./ListBooksPage.module.scss";
 
 interface Props {
-  title: "Бестселлеры" | "Рекомендации дня";
+  title: string;
   books: Book[];
   onClickBack: () => void;
   onClickBook: (bookId: number) => void;
@@ -32,6 +32,7 @@ export const ListBooksPage: FC<Props> = ({
             onClick={() => onClickBook(book.id)}
           />
         ))}
+        {books.length === 0 && <div>Ой, сейчас тут пусто</div>}
       </ContentContainer>
     </div>
   );

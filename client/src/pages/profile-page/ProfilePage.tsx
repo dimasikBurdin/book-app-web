@@ -41,7 +41,7 @@ export const ProfilePage: FC = () => {
 
   const changePage = useCallback(
     (page: ROUTES | number) => {
-      if (!Number.isNaN(page)) {
+      if (!Number.isNaN(+page)) {
         navigate(page as number);
       } else {
         navigate(`/${page}`);

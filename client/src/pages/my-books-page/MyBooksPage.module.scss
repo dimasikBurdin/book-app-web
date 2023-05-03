@@ -14,5 +14,28 @@
             display: flex;
             gap: 12px
         }
+
+        .summaryContainer {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+
+            .summary {
+                display: flex;
+                justify-content: space-between;
+
+                .title {
+                    font-size: 18px;
+                    line-height: 18px;
+                    color: #333333;
+                }
+
+                .count {
+                    font-size: 18px;
+                    line-height: 18px;
+                    color: #7E8BFF;
+                }
+            }
+        }
     }
 }

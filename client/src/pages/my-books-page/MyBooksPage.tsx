@@ -82,14 +82,14 @@ export const MyBooksPage: FC = () => {
   const categoryItems: CategoryItems = useMemo((): CategoryItems => {
     return [
       {
-        title: "Читаю сейчас",
-        books: preparedMyReadingBooks,
-        isLoading: isLoadingMyReadingBooks,
-      },
-      {
         title: "Все книги",
         books: preparedMyAllBooks,
         isLoading: isLoadingMyBooks,
+      },
+      {
+        title: "Читаю сейчас",
+        books: preparedMyReadingBooks,
+        isLoading: isLoadingMyReadingBooks,
       },
       {
         title: "Законченные",
@@ -159,7 +159,16 @@ export const MyBooksPage: FC = () => {
             </ContentContainer>
           ))}
           <ContentContainer>
-            <Hidder isLoading={isLoadingMyBooks}>Сводка</Hidder>
+            <Hidder isLoading={isLoadingMyBooks}>
+              <div className={styles.summaryContainer}>
+                {categoryItems.map(({ books, title }) => (
+                  <div className={styles.summary}>
+                    <div className={styles.title}>{title}</div>
+                    <div className={styles.count}>{books.length}</div>
+                  </div>
+                ))}
+              </div>
+            </Hidder>
           </ContentContainer>
           <div className={styles.buttons}>
             <Button

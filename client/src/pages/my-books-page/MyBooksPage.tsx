@@ -162,7 +162,7 @@ export const MyBooksPage: FC = () => {
             <Hidder isLoading={isLoadingMyBooks}>
               <div className={styles.summaryContainer}>
                 {categoryItems.map(({ books, title }) => (
-                  <div className={styles.summary}>
+                  <div className={styles.summary} key={title}>
                     <div className={styles.title}>{title}</div>
                     <div className={styles.count}>{books.length}</div>
                   </div>

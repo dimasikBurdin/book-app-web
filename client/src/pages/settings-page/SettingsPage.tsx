@@ -13,8 +13,12 @@ export const SettingsPage: FC = () => {
   const navigate = useNavigate();
 
   const changePage = useCallback(
-    (page: ROUTES) => {
-      navigate(`/${page}`);
+    (page: ROUTES | number) => {
+      if (!Number.isNaN(page)) {
+        navigate(page as number);
+      } else {
+        navigate(`/${page}`);
+      }
     },
     [navigate]
   );
@@ -22,10 +26,7 @@ export const SettingsPage: FC = () => {
   return (
     <div className={styles.main}>
       <HeaderContainer>
-        <MobileHeader
-          title="Настройки"
-          onClickBack={() => changePage(ROUTES.PROFILE)}
-        />
+        <MobileHeader title="Настройки" onClickBack={() => changePage(-1)} />
       </HeaderContainer>
       <div className={styles.content}>
         <ContentContainer>

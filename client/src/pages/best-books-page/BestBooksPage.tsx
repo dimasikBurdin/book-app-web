@@ -34,7 +34,7 @@ export const BestBooksPage: FC = () => {
   );
 
   const onClickBack = useCallback(() => {
-    navigate("/");
+    navigate(-1);
   }, [navigate]);
 
   return (

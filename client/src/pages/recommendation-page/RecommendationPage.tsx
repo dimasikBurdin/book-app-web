@@ -37,7 +37,7 @@ export const RecommendationPage: FC = () => {
   );
 
   const onClickBack = useCallback(() => {
-    navigate("/");
+    navigate(-1);
   }, [navigate]);
 
   return (

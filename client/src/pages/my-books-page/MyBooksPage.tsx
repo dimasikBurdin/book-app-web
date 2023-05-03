@@ -70,8 +70,12 @@ export const MyBooksPage: FC = () => {
   }, [myFinishedBooks]);
 
   const changePage = useCallback(
-    (page: ROUTES) => {
-      navigate(page);
+    (page: ROUTES | number) => {
+      if (!Number.isNaN(page)) {
+        navigate(page as number);
+      } else {
+        navigate(`/${page}`);
+      }
     },
     [navigate]
   );
@@ -82,6 +86,7 @@ export const MyBooksPage: FC = () => {
     },
     [navigate]
   );
+
   return (
     <div className={styles.main}>
       <HeaderContainer>

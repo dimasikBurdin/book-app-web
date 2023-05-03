@@ -31,7 +31,7 @@ export const BookPage: FC = () => {
   }, [dispatch, id]);
 
   const toBackPage = useCallback(() => {
-    navigate("/");
+    navigate(-1);
   }, [navigate]);
 
   return (

@@ -40,8 +40,12 @@ export const ProfilePage: FC = () => {
   );
 
   const changePage = useCallback(
-    (page: ROUTES) => {
-      navigate(`/${page}`);
+    (page: ROUTES | number) => {
+      if (!Number.isNaN(page)) {
+        navigate(page as number);
+      } else {
+        navigate(`/${page}`);
+      }
     },
     [navigate]
   );

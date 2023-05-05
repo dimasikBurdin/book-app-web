@@ -6,8 +6,8 @@ import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { TypeOrmConfigService } from "./shared/typeorm/typeorm.service";
 import { ApiModule } from "./api/api.module";
-import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
+import { AuthModule } from "./auth/auth.module";
+import { UsersModule } from "./users/users.module";
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 

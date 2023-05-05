@@ -6,7 +6,9 @@ import { ValidationPipe } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 
 async function bootstrap() {
-  const app: NestExpressApplication = await NestFactory.create(AppModule);
+  const app: NestExpressApplication = await NestFactory.create(AppModule, {
+    cors: true,
+  });
   const config: ConfigService = app.get(ConfigService);
   const port: number = config.get("PORT");
 

@@ -36,6 +36,7 @@
     "react-scripts": "5.0.1",
     "react-swipeable-views": "^0.14.0",
     "sass": "^1.60.0",
+    "serve": "^14.2.0",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },

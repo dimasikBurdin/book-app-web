@@ -22,4 +22,8 @@ export class UserService {
 
     return this.repository.save(user);
   }
+
+  public async findOne(username: string): Promise<User | undefined> {
+    return this.repository.findOne({ where: { name: username } });
+  }
 }

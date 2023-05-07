@@ -1,0 +1,14 @@
+services:
+  client:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    volumes:
+      - .:/usr/src/app
+    # env_file:
+    # - .env
+    # Run a command against the development stage of the image
+    # command: yarn start
+    command: yarn serve build
+    ports:
+      - 3003:3000

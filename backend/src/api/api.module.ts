@@ -4,6 +4,7 @@ import { BookModule } from "./book/book.module";
 import { MyBooksModule } from "./my-books/my-books.module";
 import { MyBookModule } from "./my-book/my-book.module";
 import { AllBooksModule } from "./all-books/all-books.module";
+import { AuthModule } from "./auth/auth.module";
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { AllBooksModule } from "./all-books/all-books.module";
     MyBooksModule,
     MyBookModule,
     AllBooksModule,
+    AuthModule,
   ],
 })
 export class ApiModule {}

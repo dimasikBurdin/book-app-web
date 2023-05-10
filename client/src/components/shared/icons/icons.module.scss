@@ -1,0 +1,61 @@
+.book {
+    path {
+        transition: .3s;
+    }
+    &.active {
+        path {
+            transition: .3s;
+            fill: #7E8BFF;
+            stroke: #7E8BFF;
+        }
+    }
+}
+
+.compass {
+    path {
+        transition: .3s;
+    }
+    &.active {
+        path {
+            transition: .3s;
+            stroke: #7E8BFF;
+        }
+    }
+}
+
+.favorite {
+    path {
+        transition: .3s;
+    }
+    &.active {
+        path {
+            transition: .3s;
+            fill: #7E8BFF;
+            stroke: #7E8BFF;
+        }
+    }
+}
+
+.friends {
+    path {
+        transition: .3s;
+    }
+    &.active {
+        path {
+            transition: .3s;
+            fill: #7E8BFF;
+        }
+    }
+}
+
+.profile {
+    path {
+        transition: .3s;
+    }
+    &.active {
+        path {
+            transition: .3s;
+            fill: #7E8BFF;
+        }
+    }
+}

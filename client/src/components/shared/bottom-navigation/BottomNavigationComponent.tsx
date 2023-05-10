@@ -26,10 +26,22 @@ export const BottomNavigationComponent: FC<Props> = ({
           onChangeTab(newValue);
         }}
       >
-        <BottomNavigationAction label="Библиотека" icon={<CompassIcon />} />
-        <BottomNavigationAction label="Мои книги" icon={<BooksIcon />} />
-        <BottomNavigationAction label="Что читают" icon={<FriendsIcon />} />
-        <BottomNavigationAction label="Профиль" icon={<ProfileIcon />} />
+        <BottomNavigationAction
+          label="Библиотека"
+          icon={<CompassIcon isActive={activeTab === 0} />}
+        />
+        <BottomNavigationAction
+          label="Мои книги"
+          icon={<BooksIcon isActive={activeTab === 1} />}
+        />
+        <BottomNavigationAction
+          label="Что читают"
+          icon={<FriendsIcon isActive={activeTab === 2} />}
+        />
+        <BottomNavigationAction
+          label="Профиль"
+          icon={<ProfileIcon isActive={activeTab === 3} />}
+        />
       </BottomNavigation>
     </div>
   );

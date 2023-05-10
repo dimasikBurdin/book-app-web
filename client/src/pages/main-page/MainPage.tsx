@@ -81,8 +81,8 @@ export const MainPage: FC = () => {
 
   return (
     <div className={styles.main}>
-      <button onClick={test}>aaa</button>
-      <button onClick={test3}>aaa</button>
+      {/* <button onClick={test}>aaa</button>
+      <button onClick={test3}>aaa</button> */}
       <HeaderContainer>
         <MobileHeader title="Библиотека" />
         <TextField size="small" placeholder="Название книги или автор" />

@@ -1,6 +1,6 @@
 import { IconButton } from "@mui/material";
 import type { FC } from "react";
-import { BackIcon, FavoriteNotFilledIcon, SettingsIcon } from "../icons";
+import { BackIcon, FavoriteIcon, SettingsIcon } from "../icons";
 import styles from "./MobileHeader.module.scss";
 
 interface Props {
@@ -26,7 +26,7 @@ export const MobileHeader: FC<Props> = ({
       <div className={styles.title}>{title}</div>
       {typeRightButton && typeRightButton === "favorite" && (
         <IconButton className={styles.rightButton} onClick={onClickRightButton}>
-          <FavoriteNotFilledIcon />
+          <FavoriteIcon />
         </IconButton>
       )}
       {typeRightButton && typeRightButton === "settings" && (

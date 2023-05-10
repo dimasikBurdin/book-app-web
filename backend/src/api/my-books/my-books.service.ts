@@ -78,7 +78,15 @@ export class MyBooksService {
     if (!type) {
       return myBooks.books;
     }
-
+    /**
+     * TO DO
+     * переписать на возвращаемое значение типа  {
+     *  type: string (not enum)
+     *  title: string
+     *  books: Book[]
+     * }
+     *
+     */
     return myBooks.books.filter(({ book }) => book.type === type);
   }
 }

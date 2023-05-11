@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import cx from "classnames";
+import manImage from "./img/manImage.svg";
 import styles from "./icons.module.scss";
 
 interface Props {
@@ -141,4 +142,8 @@ export const SettingsIcon: FC<Props> = ({ isActive }) => {
       />
     </svg>
   );
+};
+
+export const ManIcon: FC<Props> = ({ isActive }) => {
+  return <img src={manImage} alt="" />;
 };

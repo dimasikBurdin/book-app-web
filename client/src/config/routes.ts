@@ -1,4 +1,5 @@
 export enum ROUTES {
+  NOT_AUTH_PAGE = "/auth",
   MAIN_PAGE = "/",
   BOOK_PAGE = "books/:id",
   BEST_BOOKS_PAGE = "best-books",

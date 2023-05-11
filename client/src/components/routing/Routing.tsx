@@ -14,6 +14,7 @@ export const Routing: FC = () => {
   const ProfilePage = lazy(() => import("../../pages/profile-page/index"));
   const SettingsPage = lazy(() => import("../../pages/settings-page/index"));
   const MyBooksPage = lazy(() => import("../../pages/my-books-page/index"));
+  const NotAuthPage = lazy(() => import("../../pages/not-auth-page/index"));
   const NotFoundPage = lazy(() => import("./components/not-found-page/index"));
 
   return (
@@ -26,6 +27,7 @@ export const Routing: FC = () => {
     >
       <AppContainer>
         <Routes>
+          <Route path={ROUTES.NOT_AUTH_PAGE} element={<NotAuthPage />} />
           <Route path={ROUTES.MAIN_PAGE} element={<MainPage />} />
           <Route path={ROUTES.BOOK_PAGE} element={<BookPage />} />
           <Route path={ROUTES.BEST_BOOKS_PAGE} element={<BestBookPage />} />

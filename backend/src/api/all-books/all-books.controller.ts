@@ -6,8 +6,10 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  UseGuards,
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
+import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { Book } from "../book/book.entity";
 import { AddBooksToAllBooksDto } from "./all-books.dto";
 import { AllBooks } from "./all-books.entity";
@@ -38,6 +40,7 @@ export class AllBooksController {
     return this.service.getRecomendations(userId);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get("best-books")
   public getBestBooks(): Promise<Book[]> {
     return this.service.getBestBooks();

@@ -74,7 +74,7 @@ export const getRecomendationBooksAsync = createAsyncThunk(
     dispatch(setLoadingAction(BOOK_ACTIONS.GET_RECOMENDATION_BOOKS));
 
     try {
-      const userId = (getState() as Store).common.userId;
+      const userId = (getState() as Store).user.currentUserId!;
       const { data } = await BookConnector.getInstance().getRecomendationBooks(
         userId
       );
@@ -93,7 +93,7 @@ export const getMyBooksAsync = createAsyncThunk(
     dispatch(setLoadingAction(BOOK_ACTIONS.GET_MY_BOOKS));
 
     try {
-      const userId = (getState() as Store).common.userId;
+      const userId = (getState() as Store).user.currentUserId!;
       const { data } = await BookConnector.getInstance().getMyBooks(userId);
       dispatch(setMyBooksAction(data));
     } catch (error) {
@@ -110,7 +110,7 @@ export const getMyReadingBooksAsync = createAsyncThunk(
     dispatch(setLoadingAction(BOOK_ACTIONS.SET_MY_READING_BOOKS));
 
     try {
-      const userId = (getState() as Store).common.userId;
+      const userId = (getState() as Store).user.currentUserId!;
       const { data } = await BookConnector.getInstance().getMyReadingBooks(
         userId
       );
@@ -128,7 +128,7 @@ export const getMyWantReadBooksAsync = createAsyncThunk(
     dispatch(setLoadingAction(BOOK_ACTIONS.SET_MY_WANT_READ_BOOKS));
 
     try {
-      const userId = (getState() as Store).common.userId;
+      const userId = (getState() as Store).user.currentUserId!!;
       const { data } = await BookConnector.getInstance().getMyWantReadBooks(
         userId
       );
@@ -146,7 +146,7 @@ export const getMyFinishedBooksAsync = createAsyncThunk(
     dispatch(setLoadingAction(BOOK_ACTIONS.SET_MY_FINISHED_BOOKS));
 
     try {
-      const userId = (getState() as Store).common.userId;
+      const userId = (getState() as Store).user.currentUserId!;
       const { data } = await BookConnector.getInstance().getMyFinishedBooks(
         userId
       );

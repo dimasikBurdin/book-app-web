@@ -61,28 +61,8 @@ export const MainPage: FC = () => {
     [navigate]
   );
 
-  const [jwt, setjwt] = useState("");
-  const test = useCallback(async () => {
-    const res = await axios.post("/api/auth/login", {
-      username: "test",
-      password: "123Aas_@#$",
-    });
-    setjwt(res.data.access_token);
-  }, []);
-  const test3 = useCallback(async () => {
-    if (jwt) {
-      const res = await axios.get("/api/auth/profile", {
-        headers: {
-          Authorization: "Bearer ",
-        },
-      });
-    }
-  }, [jwt]);
-
   return (
     <div className={styles.main}>
-      {/* <button onClick={test}>aaa</button>
-      <button onClick={test3}>aaa</button> */}
       <HeaderContainer>
         <MobileHeader title="Библиотека" />
         <TextField size="small" placeholder="Название книги или автор" />

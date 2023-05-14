@@ -1,6 +1,5 @@
 import { Controller, UseGuards, Post, Request, Get } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
-import { LoginBodyDto } from "./auth.dto";
 import { AuthService } from "./auth.service";
 import { JwtAuthGuard } from "./jwt-auth.guard";
 import { LocalAuthGuard } from "./local-auth.guard";
@@ -12,7 +11,7 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post("login")
-  public async login(@Request() req: LoginBodyDto) {
+  public async login(@Request() req) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-ignore
     return this.authService.login(req.user);

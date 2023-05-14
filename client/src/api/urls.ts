@@ -14,4 +14,8 @@ export const URLS = {
     GET_MY_FINISHED_BOOKS: (userId: number) =>
       `/api/my-books/${userId}?type=finished`,
   },
+  [ConnectorFlow.USER]: {
+    REGISTER_USER: "/api/user",
+    LOGIN_USER: "/api/auth/login",
+  },
 };

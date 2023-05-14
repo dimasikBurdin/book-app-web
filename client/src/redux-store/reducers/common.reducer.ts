@@ -4,7 +4,6 @@ import { setLoadedAction, setLoadingAction } from "../actions/common.action";
 
 const initialState: CommonStore = {
   isLoading: {},
-  userId: 42, // TO DO
 };
 
 const setLoading = (

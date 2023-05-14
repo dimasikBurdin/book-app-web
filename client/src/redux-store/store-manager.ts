@@ -1,13 +1,13 @@
 import { AnyAction, configureStore, ThunkDispatch } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { TypedUseSelectorHook, useDispatch } from "react-redux";
-import { bookReducer } from "./reducers";
-import { commonReducer } from "./reducers/common.reducer";
+import { bookReducer, userReducer, commonReducer } from "./reducers";
 
 export const store = configureStore({
   reducer: {
     books: bookReducer,
     common: commonReducer,
+    user: userReducer,
   },
   middleware: (getDefaultMiddelware) => [
     ...getDefaultMiddelware({

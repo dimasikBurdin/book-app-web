@@ -33,6 +33,7 @@ export class AllBooksController {
     return this.service.addBooksToAllBooks(body);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get("recomendations/:userId")
   public getRecomendations(
     @Param("userId", ParseIntPipe) userId: number,

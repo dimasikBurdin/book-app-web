@@ -61,7 +61,6 @@ const setCurrentUserId = (
   state: UserStore,
   action: ReturnType<typeof setCurrentUserIdAction>
 ): UserStore => {
-  console.log(action.payload);
   return {
     ...state,
     currentUser: {

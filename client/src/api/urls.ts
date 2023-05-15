@@ -17,5 +17,6 @@ export const URLS = {
   [ConnectorFlow.USER]: {
     REGISTER_USER: "/api/user",
     LOGIN_USER: "/api/auth/login",
+    GET_CURRENT_USER: (userId: number) => `/api/user/${userId}`,
   },
 };

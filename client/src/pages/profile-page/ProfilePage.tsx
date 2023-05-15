@@ -15,6 +15,7 @@ import {
   getRecomendationBooksSelector,
   isLoadingByKeysSelector,
 } from "../../redux-store/selectors";
+import { currentUserSelector } from "../../redux-store/selectors/user.selector";
 import { useAppDispatch } from "../../redux-store/store-manager";
 import { ProfileStatistic } from "./components/profile-statistic";
 import { ProfileSummary } from "./components/profile-summary";
@@ -25,6 +26,7 @@ export const ProfilePage: FC = () => {
   const isLoadingRecomendationBooks = useSelector(
     isLoadingByKeysSelector([BOOK_ACTIONS.GET_RECOMENDATION_BOOKS])
   );
+  const currentUser = useSelector(currentUserSelector);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -61,7 +63,10 @@ export const ProfilePage: FC = () => {
       </HeaderContainer>
       <div className={styles.content}>
         <ContentContainer>
-          <ProfileSummary />
+          <ProfileSummary
+            name={currentUser?.name}
+            userId={currentUser?.userId || 0}
+          />
         </ContentContainer>
         <ContentContainer>
           <ProfileStatistic

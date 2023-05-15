@@ -1,6 +1,5 @@
 import { TextField } from "@mui/material";
-import axios from "axios";
-import { FC, useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { ContentContainer } from "../../components/shared/content-container";

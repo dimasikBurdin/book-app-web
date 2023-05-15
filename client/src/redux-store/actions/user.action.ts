@@ -1,6 +1,6 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { UserConnector } from "../../api/user-connector";
-import { LoginUserPayload, RegisterUserPayload } from "../../typing/user";
+import { LoginUserPayload, RegisterUserPayload, User } from "../../typing/user";
 import { setLoadingAction, setLoadedAction } from "./common.action";
 
 export enum USER_ACTIONS {
@@ -8,13 +8,22 @@ export enum USER_ACTIONS {
   LOGIN_USER = "[USER] LOGIN_USER",
   SET_TOKEN = "[USER] SET_TOKEN",
   SET_CURRENT_USER = "[USER] SET_CURRENT_USER",
+  GET_CURRENT_USER = "[USER] GET_CURRENT_USER",
+  SET_CURRENT_USER_ID = "[USER] SET_CURRENT_USER_ID",
+  LOGOUT_USER = "[USER] LOGOUT_USER",
 }
 
 export const setTokenAction = createAction<string>(USER_ACTIONS.SET_TOKEN);
 
-export const setCurrentUserAction = createAction<number>(
+export const setCurrentUserAction = createAction<User>(
   USER_ACTIONS.SET_CURRENT_USER
 );
+
+export const setCurrentUserIdAction = createAction<number>(
+  USER_ACTIONS.SET_CURRENT_USER_ID
+);
+
+export const logoutUserAction = createAction<void>(USER_ACTIONS.LOGOUT_USER);
 
 export const registerUserAsync = createAsyncThunk(
   USER_ACTIONS.REGISTER_USER,
@@ -24,7 +33,7 @@ export const registerUserAsync = createAsyncThunk(
     try {
       await UserConnector.getInstance().registerUser(payload);
     } catch (error) {
-      alert(error);
+      console.log(error);
     }
 
     dispatch(setLoadedAction(USER_ACTIONS.REGISTER_USER));
@@ -39,12 +48,33 @@ export const loginUserAsync = createAsyncThunk(
     try {
       const { data } = await UserConnector.getInstance().loginUser(payload);
 
+      dispatch(getCurrentUserAsync(data.userId));
+
       dispatch(setTokenAction(data.access_token));
-      dispatch(setCurrentUserAction(data.userId));
+      dispatch(setCurrentUserIdAction(data.userId));
     } catch (error) {
-      alert(error);
+      console.log(error);
     }
 
     dispatch(setLoadedAction(USER_ACTIONS.LOGIN_USER));
+  }
+);
+
+export const getCurrentUserAsync = createAsyncThunk(
+  USER_ACTIONS.LOGOUT_USER,
+  async (payload: number, { dispatch }) => {
+    dispatch(setLoadingAction(USER_ACTIONS.LOGOUT_USER));
+
+    try {
+      const { data } = await UserConnector.getInstance().getCurrentUser(
+        payload
+      );
+
+      dispatch(setCurrentUserAction(data));
+    } catch (error) {
+      console.log(error);
+    }
+
+    dispatch(setLoadedAction(USER_ACTIONS.LOGOUT_USER));
   }
 );

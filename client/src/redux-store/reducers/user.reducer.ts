@@ -2,7 +2,12 @@ import { createReducer } from "@reduxjs/toolkit";
 import { UserStore } from "../../typing/store/user.store";
 import { LocalStorageManager, STORAGE_KEYS } from "../../utils";
 
-import { setCurrentUserAction, setTokenAction } from "../actions";
+import {
+  logoutUserAction,
+  setCurrentUserAction,
+  setCurrentUserIdAction,
+  setTokenAction,
+} from "../actions";
 
 const initialState: UserStore = {
   token: (() => {
@@ -11,13 +16,17 @@ const initialState: UserStore = {
       false
     );
   })(),
-  currentUserId: (() => {
+  currentUser: (() => {
     const token = LocalStorageManager.getFromLocalStorage<string>(
       STORAGE_KEYS.JWT,
       false
     );
     if (token) {
-      return JSON.parse(atob(token.split(".")[1])).sub;
+      return {
+        userId: JSON.parse(atob(token.split(".")[1])).sub,
+        email: null,
+        name: null,
+      };
     }
     return null;
   })(),
@@ -44,12 +53,41 @@ const setCurrentUser = (
 ): UserStore => {
   return {
     ...state,
-    currentUserId: action.payload,
+    currentUser: action.payload,
+  };
+};
+
+const setCurrentUserId = (
+  state: UserStore,
+  action: ReturnType<typeof setCurrentUserIdAction>
+): UserStore => {
+  console.log(action.payload);
+  return {
+    ...state,
+    currentUser: {
+      ...(state.currentUser || { email: null, name: null }),
+      userId: action.payload,
+    },
+  };
+};
+
+const logoutUser = (
+  state: UserStore,
+  action: ReturnType<typeof logoutUserAction>
+): UserStore => {
+  LocalStorageManager.removeFromLocalStorage(STORAGE_KEYS.JWT);
+
+  return {
+    ...state,
+    currentUser: null,
+    token: null,
   };
 };
 
 export const userReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(setTokenAction, setToken)
-    .addCase(setCurrentUserAction, setCurrentUser);
+    .addCase(setCurrentUserAction, setCurrentUser)
+    .addCase(setCurrentUserIdAction, setCurrentUserId)
+    .addCase(logoutUserAction, logoutUser);
 });

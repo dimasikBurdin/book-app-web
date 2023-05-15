@@ -7,8 +7,10 @@ import {
   ParseIntPipe,
   Post,
   Query,
+  UseGuards,
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
+import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { CreateMyBookDto } from "../my-book/my-book.dto";
 import { MyBook } from "../my-book/my-book.entity";
 import { CreateMyBooksDto, GetBooksByTypeDto } from "./my-books.dto";
@@ -31,11 +33,13 @@ export class MyBooksController {
     return this.service.createMyBooks(body);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post("add-book")
   public addBookToMyBooks(@Body() body: CreateMyBookDto): Promise<MyBooks> {
     return this.service.addBookToMyBooks(body);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(":userId/:bookId")
   public getMyBook(
     @Param("userId", ParseIntPipe) userId: number,
@@ -44,6 +48,7 @@ export class MyBooksController {
     return this.service.getMyBook(userId, bookId);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(":userId")
   public getMyBooksByType(
     @Param("userId", ParseIntPipe) userId: number,

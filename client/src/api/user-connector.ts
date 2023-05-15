@@ -6,6 +6,7 @@ import {
   LoginUserPayload,
   LoginUserResponse,
   RegisterUserPayload,
+  User,
 } from "../typing/user";
 
 export class UserConnector extends PrimaryConnector<ConnectorFlow.USER> {
@@ -22,5 +23,9 @@ export class UserConnector extends PrimaryConnector<ConnectorFlow.USER> {
 
   public loginUser = (payload: LoginUserPayload) => {
     return axios.post<LoginUserResponse>(this.urls.LOGIN_USER, payload);
+  };
+
+  public getCurrentUser = (userId: number) => {
+    return axios.get<User>(this.urls.GET_CURRENT_USER(userId));
   };
 }

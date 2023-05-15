@@ -1,4 +1,6 @@
+import { User } from "../user";
+
 export interface UserStore {
   token: string | null;
-  currentUserId: number | null; //TO DO переделать, чтобы получать еще имя
+  currentUser: User | null;
 }

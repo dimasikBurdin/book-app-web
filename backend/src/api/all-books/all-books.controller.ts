@@ -47,6 +47,7 @@ export class AllBooksController {
     return this.service.getBestBooks();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get("book/:bookId")
   public getBook(@Param("bookId", ParseIntPipe) bookId: number): Promise<Book> {
     return this.service.getBook(bookId);

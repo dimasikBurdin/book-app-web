@@ -11,3 +11,9 @@ export interface LoginUserPayload {
 export interface RegisterUserPayload extends LoginUserPayload {
   name: string;
 }
+
+export interface User {
+  userId: number;
+  name: string | null;
+  email: string | null;
+}

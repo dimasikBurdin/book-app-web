@@ -147,11 +147,13 @@ export const NotAuthPage: FC = () => {
               placeholder="email"
               name="signIn.email"
               onChange={handleChange}
+              type="email"
             />
             <Input
               placeholder="password"
               name="signIn.password"
               onChange={handleChange}
+              type="password"
             />
           </div>
           <Button

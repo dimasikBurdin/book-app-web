@@ -5,6 +5,7 @@ import styles from "./icons.module.scss";
 
 interface Props {
   isActive?: boolean;
+  className?: string;
 }
 
 export const BooksIcon: FC<Props> = ({ isActive }) => {
@@ -144,6 +145,6 @@ export const SettingsIcon: FC<Props> = ({ isActive }) => {
   );
 };
 
-export const ManIcon: FC<Props> = ({ isActive }) => {
-  return <img src={manImage} alt="" />;
+export const ManIcon: FC<Props> = ({ className }) => {
+  return <img className={className} src={manImage} alt="" />;
 };

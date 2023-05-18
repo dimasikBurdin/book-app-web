@@ -1,10 +1,18 @@
+import { LoadingButton } from "@mui/lab";
 import { Button, Input } from "@mui/material";
 import { useFormik } from "formik";
-import { FC, useCallback, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router";
 import { useNavigate } from "react-router";
 import { Hidder } from "../../components/shared/hidder";
 import { ManIcon } from "../../components/shared/icons";
-import { loginUserAsync, registerUserAsync } from "../../redux-store/actions";
+import {
+  loginUserAsync,
+  registerUserAsync,
+  USER_ACTIONS,
+} from "../../redux-store/actions";
+import { isLoadingByKeysSelector } from "../../redux-store/selectors";
 import { useAppDispatch } from "../../redux-store/store-manager";
 import { LoginUserPayload, RegisterUserPayload } from "../../typing/user";
 import styles from "./NotAuthPage.module.scss";
@@ -29,7 +37,11 @@ interface FormikData {
 
 export const NotAuthPage: FC = () => {
   const [currentTab, setCurrentTab] = useState<Tabs>(null);
+  const isLoadingLogin = useSelector(
+    isLoadingByKeysSelector([USER_ACTIONS.LOGIN_USER])
+  );
   const navigate = useNavigate();
+  const { search } = useLocation();
 
   const dispatch = useAppDispatch();
 
@@ -114,17 +126,36 @@ export const NotAuthPage: FC = () => {
     }
   }, [loginUserRequest, values.signIn.email, values.signIn.password]);
 
+  const changeAuthTab = useCallback(
+    (tab: Tabs) => {
+      changeTab(tab);
+    },
+    [changeTab]
+  );
+
+  useEffect(() => {
+    navigate({
+      search: currentTab ? `?${currentTab}` : "",
+    });
+  }, [currentTab, navigate]);
+
+  useEffect(() => {
+    if (!search) {
+      changeTab(null);
+    }
+  }, [changeTab, search]);
+
   return (
     <div className={styles.main}>
       <Hidder condition={!currentTab}>
         <div className={styles.content}>
-          <ManIcon />
+          <ManIcon className={styles.image} />
           <div className={styles.buttons}>
             <Button
               fullWidth
               variant="outlined"
               style={{ borderRadius: 20 }}
-              onClick={() => changeTab("signUp")}
+              onClick={() => changeAuthTab("signUp")}
             >
               Регистрация
             </Button>
@@ -132,7 +163,7 @@ export const NotAuthPage: FC = () => {
               fullWidth
               variant="contained"
               style={{ borderRadius: 20 }}
-              onClick={() => changeTab("signIn")}
+              onClick={() => changeAuthTab("signIn")}
             >
               Вход
             </Button>
@@ -156,14 +187,15 @@ export const NotAuthPage: FC = () => {
               type="password"
             />
           </div>
-          <Button
+          <LoadingButton
             fullWidth
             variant="contained"
             style={{ borderRadius: 20 }}
             onClick={loginUser}
+            loading={isLoadingLogin}
           >
             Вход
-          </Button>
+          </LoadingButton>
         </div>
       </Hidder>
       <Hidder condition={currentTab === "signUp"}>

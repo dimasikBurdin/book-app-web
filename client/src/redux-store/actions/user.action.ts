@@ -48,10 +48,10 @@ export const loginUserAsync = createAsyncThunk(
     try {
       const { data } = await UserConnector.getInstance().loginUser(payload);
 
-      await dispatch(getCurrentUserAsync(data.userId));
-
       dispatch(setTokenAction(data.access_token));
       dispatch(setCurrentUserIdAction(data.userId));
+
+      await dispatch(getCurrentUserAsync(data.userId));
     } catch (error) {
       console.log(error);
     }

@@ -1,13 +1,14 @@
 services:
   client:
+    stdin_open: true # docker run -i
+    # tty: true        # docker run -t
     build:
       dockerfile: Dockerfile
       context: ./client
     volumes:
       - .:/usr/src/app
-    command: yarn serve build
     ports:
-      - 3003:3000
+      - 80:80
 
   database:
     image: postgres
@@ -35,4 +36,17 @@ services:
     - ./backend/.env
     command: yarn start:dev
     ports:
-      - 3004:3001
+      - 3001:3001
+
+  # nginx:
+  #   # depends_on:
+  #   #   - api
+  #   #   - client
+  #   restart: always
+  #   build:
+  #     dockerfile: Dockerfile
+  #     context: ./nginx
+  #   ports:
+  #     - "3080:80"
+  #   links:
+  #     - client

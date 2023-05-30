@@ -1,4 +1,4 @@
-import { Button, Fade, Slide } from "@mui/material";
+import { Button, Fade } from "@mui/material";
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router";

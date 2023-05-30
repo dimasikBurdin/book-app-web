@@ -13,6 +13,11 @@ export const URLS = {
       `/api/my-books/${userId}?type=want_read`,
     GET_MY_FINISHED_BOOKS: (userId: number) =>
       `/api/my-books/${userId}?type=finished`,
+    IS_MY_BOOK: (userId: number, bookId: number) =>
+      `/api/my-books/${userId}/${bookId}`,
+    ADD_TO_MY_BOOKS: `/api/my-books/add-book`,
+    DELETE_MY_BOOK: (userId: number, bookId: number) =>
+      `/api/my-books/${userId}/book/${bookId}`,
   },
   [ConnectorFlow.USER]: {
     REGISTER_USER: "/api/user",

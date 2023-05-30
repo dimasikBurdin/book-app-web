@@ -1,7 +1,14 @@
 import { ConnectorFlow } from "../typing/connector";
 import { ConnectorAsInstance } from "../utils/connector-as-static";
 import { PrimaryConnector } from "./primary-controller";
-import { BestBooks, Book, MyBooks, RecomendationBooks } from "../typing/book";
+import {
+  AddToMyBooksPayload,
+  BestBooks,
+  Book,
+  DeleteMyBookPayload,
+  MyBooks,
+  RecomendationBooks,
+} from "../typing/book";
 import { axios } from "../utils/axios";
 
 export class BookConnector extends PrimaryConnector<ConnectorFlow.BOOKS> {
@@ -40,5 +47,19 @@ export class BookConnector extends PrimaryConnector<ConnectorFlow.BOOKS> {
 
   public getBook = (bookId: number) => {
     return axios.get<Book>(this.urls.GET_BOOK(bookId));
+  };
+
+  public isMyBook = (userId: number, bookId: number) => {
+    return axios.get<boolean>(this.urls.IS_MY_BOOK(userId, bookId));
+  };
+
+  public addToMyBooks = (payload: AddToMyBooksPayload) => {
+    return axios.post<void>(this.urls.ADD_TO_MY_BOOKS, payload);
+  };
+
+  public deleteMyBook = (payload: DeleteMyBookPayload) => {
+    return axios.delete<void>(
+      this.urls.DELETE_MY_BOOK(payload.userId, payload.bookId)
+    );
   };
 }

@@ -1,6 +1,7 @@
-import { Button } from "@mui/material";
+import { Button, Fade, Slide } from "@mui/material";
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router";
 import { useNavigate } from "react-router";
 import { ContentContainer } from "../../components/shared/content-container";
 import { HeaderContainer } from "../../components/shared/header-container";
@@ -8,7 +9,6 @@ import { Hidder } from "../../components/shared/hidder";
 import { ListBooksPage } from "../../components/shared/list-books-page";
 import { MobileHeader } from "../../components/shared/mobile-header";
 import { SwiperBooksContainer } from "../../components/shared/swiper-books-container";
-import { ROUTES } from "../../config/routes";
 import {
   getMyFinishedBooksAsync,
   BOOK_ACTIONS,
@@ -29,6 +29,7 @@ import styles from "./MyBooksPage.module.scss";
 
 type CategoryItems = {
   title: string;
+  query: string;
   books: Book[];
   isLoading: boolean;
 }[];
@@ -51,6 +52,8 @@ export const MyBooksPage: FC = () => {
   const isLoadingMyReadingBooks = useSelector(
     isLoadingByKeysSelector([BOOK_ACTIONS.GET_MY_READING_BOOKS])
   );
+
+  const { search } = useLocation();
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -83,23 +86,27 @@ export const MyBooksPage: FC = () => {
     return [
       {
         title: "Все книги",
+        query: "all-books",
         books: preparedMyAllBooks,
         isLoading: isLoadingMyBooks,
       },
       {
         title: "Читаю сейчас",
+        query: "read_now",
         books: preparedMyReadingBooks,
         isLoading: isLoadingMyReadingBooks,
       },
       {
-        title: "Законченные",
-        books: preparedMyFinishedBooks,
-        isLoading: isLoadingMyFinishedBooks,
-      },
-      {
         title: "Хочу прочитать",
+        query: "want_read",
         books: preparedMyWantReadBooks,
         isLoading: isLoadingMyWantBooks,
+      },
+      {
+        title: "Законченные",
+        query: "finished",
+        books: preparedMyFinishedBooks,
+        isLoading: isLoadingMyFinishedBooks,
       },
     ];
   }, [
@@ -113,16 +120,16 @@ export const MyBooksPage: FC = () => {
     preparedMyWantReadBooks,
   ]);
 
-  const changePage = useCallback(
-    (page: ROUTES | number) => {
-      if (!Number.isNaN(+page)) {
-        navigate(page as number);
-      } else {
-        navigate(`/${page}`);
-      }
-    },
-    [navigate]
-  );
+  // const changePage = useCallback(
+  //   (page: ROUTES | number) => {
+  //     if (!Number.isNaN(+page)) {
+  //       navigate(page as number);
+  //     } else {
+  //       navigate(`/${page}`);
+  //     }
+  //   },
+  //   [navigate]
+  // );
 
   const onClickBook = useCallback(
     (bookId: number) => {
@@ -131,13 +138,36 @@ export const MyBooksPage: FC = () => {
     [navigate]
   );
 
-  const onClickShowAll = useCallback((index: number) => {
-    setSelectedCategory(index);
-  }, []);
+  const onClickShowAll = useCallback(
+    (index: number) => {
+      navigate({
+        search: categoryItems[index].query,
+      });
+      setSelectedCategory(index);
+    },
+    [categoryItems, navigate]
+  );
 
   const closeCategory = useCallback(() => {
     setSelectedCategory(null);
-  }, []);
+    navigate({
+      search: "",
+    });
+  }, [navigate]);
+
+  useEffect(() => {
+    if (search) {
+      const query = search.slice(1);
+      const ind = categoryItems.findIndex((item) => item.query === query);
+      if (ind !== -1) {
+        setSelectedCategory(ind);
+      } else {
+        setSelectedCategory(null);
+      }
+    } else {
+      setSelectedCategory(null);
+    }
+  }, [categoryItems, search]);
 
   return (
     <div className={styles.main}>
@@ -145,57 +175,63 @@ export const MyBooksPage: FC = () => {
         <HeaderContainer>
           <MobileHeader title="Мои книги" />
         </HeaderContainer>
-        <div className={styles.content}>
-          {categoryItems.map(({ books, title, isLoading }, index) => (
-            <ContentContainer key={title}>
-              <Hidder isLoading={isLoading}>
-                <SwiperBooksContainer
-                  books={books.slice(0, 10)}
-                  onClickShowAll={() => onClickShowAll(index)}
-                  title={title}
-                  onClickBook={onClickBook}
-                />
+        <Fade in={selectedCategory === null} mountOnEnter unmountOnExit>
+          <div className={styles.content}>
+            {categoryItems.map(({ books, title, isLoading }, index) => (
+              <ContentContainer key={title}>
+                <Hidder isLoading={isLoading}>
+                  <SwiperBooksContainer
+                    books={books.slice(0, 10)}
+                    onClickShowAll={() => onClickShowAll(index)}
+                    title={title}
+                    onClickBook={onClickBook}
+                  />
+                </Hidder>
+              </ContentContainer>
+            ))}
+            <ContentContainer>
+              <Hidder isLoading={isLoadingMyBooks}>
+                <div className={styles.summaryContainer}>
+                  {categoryItems.map(({ books, title }) => (
+                    <div className={styles.summary} key={title}>
+                      <div className={styles.title}>{title}</div>
+                      <div className={styles.count}>{books.length}</div>
+                    </div>
+                  ))}
+                </div>
               </Hidder>
             </ContentContainer>
-          ))}
-          <ContentContainer>
-            <Hidder isLoading={isLoadingMyBooks}>
-              <div className={styles.summaryContainer}>
-                {categoryItems.map(({ books, title }) => (
-                  <div className={styles.summary} key={title}>
-                    <div className={styles.title}>{title}</div>
-                    <div className={styles.count}>{books.length}</div>
-                  </div>
-                ))}
-              </div>
-            </Hidder>
-          </ContentContainer>
-          <div className={styles.buttons}>
-            <Button
-              variant="contained"
-              fullWidth
-              style={{ fontSize: 12, borderRadius: 24, padding: 12 }}
-            >
-              Загрузить книгу
-            </Button>
-            <Button
-              variant="contained"
-              fullWidth
-              style={{ fontSize: 12, borderRadius: 24, padding: 12 }}
-            >
-              Добавить полку
-            </Button>
+            <div className={styles.buttons}>
+              <Button
+                variant="contained"
+                fullWidth
+                style={{ fontSize: 12, borderRadius: 24, padding: 12 }}
+              >
+                Загрузить книгу
+              </Button>
+              <Button
+                variant="contained"
+                fullWidth
+                style={{ fontSize: 12, borderRadius: 24, padding: 12 }}
+              >
+                Добавить полку
+              </Button>
+            </div>
           </div>
-        </div>
+        </Fade>
       </Hidder>
       <Hidder condition={selectedCategory !== null}>
         {selectedCategory !== null && (
-          <ListBooksPage
-            books={categoryItems[selectedCategory].books}
-            onClickBack={closeCategory}
-            onClickBook={onClickBook}
-            title={categoryItems[selectedCategory].title}
-          />
+          <Fade in={selectedCategory !== null} mountOnEnter unmountOnExit>
+            <div>
+              <ListBooksPage
+                books={categoryItems[selectedCategory].books}
+                onClickBack={closeCategory}
+                onClickBook={onClickBook}
+                title={categoryItems[selectedCategory].title}
+              />
+            </div>
+          </Fade>
         )}
       </Hidder>
     </div>

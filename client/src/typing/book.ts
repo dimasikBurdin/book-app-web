@@ -29,3 +29,14 @@ export type MyBook = {
 };
 
 export type MyBooks = MyBook[];
+
+export interface AddToMyBooksPayload {
+  userId: number;
+  bookId: number;
+  type: BookTypes;
+}
+
+export interface DeleteMyBookPayload {
+  userId: number;
+  bookId: number;
+}

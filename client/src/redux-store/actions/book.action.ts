@@ -3,6 +3,7 @@ import { BookConnector } from "../../api/book-connector";
 import {
   BestBooks,
   Book,
+  BookTypes,
   MyBooks,
   RecomendationBooks,
 } from "../../typing/book";
@@ -24,6 +25,9 @@ export enum BOOK_ACTIONS {
   SET_MY_FINISHED_BOOKS = "[BOOKS] SET_MY_FINISHED_BOOKS",
   GET_BOOK = "[BOOKS] GET_BOOK",
   SET_BOOK = "[BOOKS] SET_BOOK",
+  ADD_TO_WANT_READ = "[BOOKS] ADD_TO_WANT_READ",
+  ADD_TO_READ_NOW = "[BOOKS] ADD_TO_READ_NOW",
+  DELETE_MY_BOOK = "[BOOKS] DELETE_MY_BOOK",
 }
 
 export const setBestBooksAction = createAction<BestBooks>(
@@ -172,5 +176,76 @@ export const getBookAsync = createAsyncThunk(
     }
 
     dispatch(setLoadedAction(BOOK_ACTIONS.GET_BOOK));
+  }
+);
+
+export const addToWantReadAsync = createAsyncThunk(
+  BOOK_ACTIONS.ADD_TO_WANT_READ,
+  async (bookId: number, { dispatch, getState }) => {
+    dispatch(setLoadingAction(BOOK_ACTIONS.ADD_TO_WANT_READ));
+
+    try {
+      const userId = (getState() as Store).user.currentUser?.userId!;
+      await BookConnector.getInstance().addToMyBooks({
+        bookId,
+        userId,
+        type: BookTypes.WANT_READ,
+      });
+
+      dispatch(setLoadedAction(BOOK_ACTIONS.ADD_TO_WANT_READ));
+      return true;
+    } catch (error) {
+      console.log(error);
+
+      dispatch(setLoadedAction(BOOK_ACTIONS.ADD_TO_WANT_READ));
+      return false;
+    }
+  }
+);
+
+export const addToReadNowAsync = createAsyncThunk(
+  BOOK_ACTIONS.ADD_TO_READ_NOW,
+  async (bookId: number, { dispatch, getState }) => {
+    dispatch(setLoadingAction(BOOK_ACTIONS.ADD_TO_READ_NOW));
+
+    try {
+      const userId = (getState() as Store).user.currentUser?.userId!;
+      await BookConnector.getInstance().addToMyBooks({
+        bookId,
+        userId,
+        type: BookTypes.READ_NOW,
+      });
+
+      dispatch(setLoadedAction(BOOK_ACTIONS.ADD_TO_READ_NOW));
+      return true;
+    } catch (error) {
+      console.log(error);
+
+      dispatch(setLoadedAction(BOOK_ACTIONS.ADD_TO_READ_NOW));
+      return false;
+    }
+  }
+);
+
+export const deleteMyBookAsync = createAsyncThunk(
+  BOOK_ACTIONS.DELETE_MY_BOOK,
+  async (bookId: number, { dispatch, getState }) => {
+    dispatch(setLoadingAction(BOOK_ACTIONS.DELETE_MY_BOOK));
+
+    try {
+      const userId = (getState() as Store).user.currentUser?.userId!;
+      await BookConnector.getInstance().deleteMyBook({
+        bookId,
+        userId,
+      });
+
+      dispatch(setLoadedAction(BOOK_ACTIONS.DELETE_MY_BOOK));
+      return true;
+    } catch (error) {
+      console.log(error);
+
+      dispatch(setLoadedAction(BOOK_ACTIONS.DELETE_MY_BOOK));
+      return false;
+    }
   }
 );

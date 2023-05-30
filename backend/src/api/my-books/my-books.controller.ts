@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Inject,
   Param,
@@ -40,6 +41,15 @@ export class MyBooksController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Delete(":userId/book/:bookId")
+  public deleteMyBook(
+    @Param("userId", ParseIntPipe) userId: number,
+    @Param("bookId", ParseIntPipe) bookId: number,
+  ): Promise<MyBooks> {
+    return this.service.deleteMyBook(userId, bookId);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get(":userId/:bookId")
   public getMyBook(
     @Param("userId", ParseIntPipe) userId: number,
@@ -55,5 +65,14 @@ export class MyBooksController {
     @Query() query: GetBooksByTypeDto,
   ): Promise<MyBook[]> {
     return this.service.getMyBooksByType({ userId, type: query.type });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get(":userId/:bookId")
+  public isMyBooks(
+    @Param("userId", ParseIntPipe) userId: number,
+    @Param("bookId", ParseIntPipe) bookId: number,
+  ): Promise<boolean> {
+    return this.service.isMyBook({ userId, bookId });
   }
 }

@@ -1,4 +1,4 @@
-import { IconButton } from "@mui/material";
+import { CircularProgress, IconButton } from "@mui/material";
 import type { FC } from "react";
 import { BackIcon, FavoriteIcon, SettingsIcon } from "../icons";
 import styles from "./MobileHeader.module.scss";
@@ -8,6 +8,8 @@ interface Props {
   onClickBack?: () => void;
   typeRightButton?: "favorite" | "settings";
   onClickRightButton?: () => void;
+  isFavorite?: boolean;
+  isLoadingFavorite?: boolean;
 }
 
 export const MobileHeader: FC<Props> = ({
@@ -15,6 +17,8 @@ export const MobileHeader: FC<Props> = ({
   onClickBack,
   onClickRightButton,
   typeRightButton,
+  isFavorite,
+  isLoadingFavorite,
 }) => {
   return (
     <div className={styles.main}>
@@ -26,7 +30,8 @@ export const MobileHeader: FC<Props> = ({
       <div className={styles.title}>{title}</div>
       {typeRightButton && typeRightButton === "favorite" && (
         <IconButton className={styles.rightButton} onClick={onClickRightButton}>
-          <FavoriteIcon />
+          {isLoadingFavorite && <CircularProgress size={16} />}
+          {!isLoadingFavorite && <FavoriteIcon isActive={isFavorite} />}
         </IconButton>
       )}
       {typeRightButton && typeRightButton === "settings" && (

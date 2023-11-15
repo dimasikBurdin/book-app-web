@@ -1,6 +1,6 @@
 services:
   database:
-    image: postgres
+    image: postgres:15
     # command: --init-file /data/application/init.sql
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql

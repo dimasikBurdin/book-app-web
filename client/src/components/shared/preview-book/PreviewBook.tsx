@@ -1,7 +1,7 @@
 import { Chip, IconButton, Rating } from "@mui/material";
 import type { FC } from "react";
 import { Book } from "../../../typing/book";
-import { getShortDescription } from "../../../utils/getShortString";
+import { getShortString } from "../../../utils/get-short-string";
 import tempCover from "../swiper-books-container/Clipboard01.jpg";
 import AddIcon from "@mui/icons-material/Add";
 import styles from "./PreviewBook.module.scss";
@@ -25,7 +25,7 @@ export const PreviewBook: FC<Props> = ({
         <Rating value={rate} readOnly size="small" />
         <div>more stat</div>
         <div className={styles.description}>
-          {getShortDescription(
+          {getShortString(
             // TO DO
             "«Записки юного врача» — цикл рассказов М. А. Булгакова, опубликованных в 1925—1926 годах в журналах «Медицинский работник» и «Красная панорама»«Записки юного врача» — цикл рассказов М. А. Булгакова, опубликованных в 1925—1926 годах в журналах «Медицинский работник» и «Красная панорама»",
             100

@@ -29,6 +29,8 @@ export const SwiperBooksContainer: FC<Props> = ({
           variant="contained"
           color="secondary"
           onClick={onClickShowAll}
+          datatype={`swiper-show-all-${title}`}
+          id="hui"
         >
           Все
         </Button>

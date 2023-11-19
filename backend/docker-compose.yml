@@ -13,6 +13,11 @@ services:
       PGUSER: ${POSTGRES_USER}
     ports:
       - '5432:5432'
+    deploy:
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: "100m"
   
   api:
     build:
@@ -28,3 +33,8 @@ services:
     command: yarn start:dev
     ports:
       - 3004:3001
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "200m"
